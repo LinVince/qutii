@@ -12,6 +12,7 @@ let clickStyle={
 };
 export default function Left_Bar(props) {
   let {setDrawerStatus,drawerStatus}=props;
+  const [forceUpdateKey, setForceUpdateKey] = useState(0);
   function ButtonClick(currentButton){
     if(drawerStatus===currentButton){
        let currentBackground={
@@ -58,8 +59,9 @@ useEffect(()=>{
     clickStyle={
       ["overview"]:currentBackground
     }
+    setForceUpdateKey(forceUpdateKey+1)
   }
-  // setColor(drawerStatus,"f0f0f0")
+  
 },[props.drawerStatus])
 
 
