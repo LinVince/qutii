@@ -5,17 +5,17 @@ import IconButton from '@mui/material/IconButton';
 import SvgIcon from '@mui/material/SvgIcon';
 
 import Logo from "./components/logo.jsx"
-
+let clickStyle={
+  overview:null,
+  bookmark:null,
+  personal:null
+};
 export default function Left_Bar(props) {
   let {setDrawerStatus,drawerStatus}=props;
-  let clickStyle={
-    overview:{},
-    personal:{}
-  };
   function ButtonClick(currentButton){
     if(drawerStatus===currentButton){
-      let currentBackground={
-        backgroundColor: "#f0f0f0"
+       let currentBackground={
+        backgroundColor: "#fff"
       };
       clickStyle={
         [currentButton]:currentBackground
@@ -24,10 +24,10 @@ export default function Left_Bar(props) {
       return
     }
     if(currentButton){
-    
       let currentBackground={
-        backgroundColor: "#fff"
+        backgroundColor: "#f0f0f0"
       };
+     
       clickStyle={
         [currentButton]:currentBackground
       }
@@ -35,17 +35,34 @@ export default function Left_Bar(props) {
     }
     
   }
+
  
-  // useMemo(()=>{
-  //   if(drawerStatus){
-  //     console.log(1111)
-  //     clickStyle={
-  //       backgroundColor: '#f0f0f0',
-  //     }
-  //   }else{
-  //     clickStyle={}
-  //   }
-  // },[drawerStatus])
+const setColor=(currentButton,color) =>{
+  let currentBackground={
+    backgroundColor: color
+  };
+ 
+  clickStyle={
+    [currentButton]:currentBackground
+  }
+  return clickStyle
+}
+
+
+useEffect(()=>{
+  if(props.drawerStatus === "overview" && !clickStyle.overview){
+    let currentBackground={
+      backgroundColor: "#f0f0f0"
+    };
+   
+    clickStyle={
+      ["overview"]:currentBackground
+    }
+  }
+  // setColor(drawerStatus,"f0f0f0")
+},[props.drawerStatus])
+
+
   return (
     <div className='leftbar'>
       <Toolbar >
@@ -59,7 +76,7 @@ export default function Left_Bar(props) {
         </a>
       </Toolbar>
       <Toolbar >
-        <a className='LeftbarIcon' style={clickStyle} onClick={()=>ButtonClick("bookmark")}>
+        <a className='LeftbarIcon' style={clickStyle.bookmark} onClick={()=>ButtonClick("bookmark")}>
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M19 18L21 19V3C21 1.9 20.1 1 19 1H8.99C7.89 1 7 1.9 7 3H17C18.1 3 19 3.9 19 5V18ZM15 5H5C3.9 5 3 5.9 3 7V23L10 20L17 23V7C17 5.9 16.1 5 15 5Z" fill="#4B7D94" />
           </svg>

@@ -29,7 +29,11 @@ export default function Knowledge_Drawer(props) {
   //   }
   // }, [currentInfo])
 
-
+  const [value, setValue] = useState(0);
+  let StateProps={
+    value:value,
+    setValue:setValue,
+  }
   return (
     <Box sx={{ borderBottom: 1, width: '412px' }}>
       <SwipeableDrawer
@@ -41,22 +45,19 @@ export default function Knowledge_Drawer(props) {
         {/* Search */}
         <KnowledgeSearch />
         {/* Knowledge Topic*/}
-        {renderDrawerContent(drawerStatus, currentInfo)}
-
-
-
+        {renderDrawerContent(drawerStatus, currentInfo, StateProps)}
       </SwipeableDrawer>
     </Box>
 
   )
 }
 
-function renderDrawerContent(drawerStatus, currentInfo) {
+function renderDrawerContent(drawerStatus, currentInfo,props) {
   if (drawerStatus) {
     switch (drawerStatus) {
       case "overview":
         if (currentInfo) {
-          return renderOverview(currentInfo)
+          return renderOverview(currentInfo,props)
         } else {
           return (<div className="defaultValue">
             Welcome to QuTii Knowledge Map. Navigate the map and click on the topic you are interested in and relevant information will be displayed here.
@@ -102,9 +103,8 @@ function a11yProps(index) {
   };
 }
 
-
-  const renderOverview = (currentInfo) => {
-    const [value, setValue] = useState(0);
+  const renderOverview = (currentInfo,props={}) => {
+    let {value, setValue}=props;
     const handleChange = (event, newValue) => {
       setValue(newValue);
     };
