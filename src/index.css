@@ -73,6 +73,10 @@ button:focus-visible {
   position: static !important;
   z-index: auto !important;
   padding:14px !important;
+  margin-left:10px;
+}
+.MuiDrawer-paper{
+  left:86px !important;
 }
 .popDrawer{
   padding:20px;
@@ -84,12 +88,25 @@ button:focus-visible {
   margin:18px 0 0;
   padding:0 18px;
 }
+.MuiButtonBase-root {
+  text-transform:none !important;
+}
+.knowledgeTag{
+  margin-bottom: 10px !important;
+  margin-right: 6px !important;
 
+  background:#E0F4FF !important;
+   color:#136682 !important;
+   
+}
 .MuiModal-root .subTopic{
   font-size: 14px;
   color:#6E767A;
   margin:6px;
   padding:0 12px;
+}
+.stack{
+  margin-bottom: 10px;
 }
 
 /* leftbar */
@@ -98,10 +115,11 @@ button:focus-visible {
   z-index: 99999 !important;
   background: #ffffff;
   height:100%;
-  width:84px;
+  width:85px;
   top:0;
   left:0;
   bottom: 0;
+  box-shadow: 2px 0px 3px #f9f9f9;
 }
 .logo{
   position: relative;
@@ -110,4 +128,13 @@ button:focus-visible {
   position: absolute;
   top:0px;
   left:2px;
+}
+.LeftbarIcon{
+  cursor: pointer;
+  padding:10px 10px 6px;
+}
+
+.defaultValue{
+  width:350px;
+  margin-left:30px;
 }
