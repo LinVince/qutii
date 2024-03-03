@@ -17,6 +17,11 @@ import Leftbar from "./components/Leftbar"
 const DATA_URL =
   'https://raw.githubusercontent.com/LinVince/knowledge_map/main/final_data II.csv';
 
+
+const mapStyle = 'mapbox://styles/vincejim/clptmnrul00co01r53737ar8c'
+const mapboxAccessToken = 'pk.eyJ1IjoidmluY2VqaW0iLCJhIjoiY2xvdnlzeGoyMTYzZDJxbHFjZTA2ejEzMyJ9.BSDmnQnGrI2VFa83kGl9QA'
+
+
 const INITIAL_VIEW_STATE = {
   latitude: 0,
   longitude: 0,
@@ -43,6 +48,7 @@ export default function App({data, noOverlap = true, fontSize = 32}) {
   const [zoom, setZoom] = useState(INITIAL_VIEW_STATE.zoom);
   const [currentInfo, setCurrentInfo]=useState()
   const [drawerStatus, setDrawerStatus]=useState(false)
+  const [cursorState, setCursorState]=useState('cursor')
 
   
   //const onViewStateChange = useCallback(({viewState}) => {
@@ -66,6 +72,14 @@ export default function App({data, noOverlap = true, fontSize = 32}) {
       latitude: newLatitude,
       longitude: newLongitude
     };
+  };
+
+  const handleHover = info => {
+    if (info.object && info.object.type === 'subtopic') {
+      setCursorState('pointer');
+    } else {
+      setCursorState('default');
+    }
   };
 
   const scale = 2 ** zoom;
@@ -101,19 +115,20 @@ export default function App({data, noOverlap = true, fontSize = 32}) {
       case 'topic':
         return 24;
       case 'subtopic':
-        return 16;
+        return 20;
     }
   } 
-
   const textLayer = new TextLayer({
     id: 'knowledge_map',
     data,
     characterSet: 'auto',
     fontSettings: {
-      buffer: 8
+      buffer: 8,
+      
     },
-    fontFamily: 'Raleway',
-    fontWeight: 1000,
+    fontFamily: "Gill Sans Extrabold, sans-serif",
+    fontWeight: 'bold',
+    
 
     // TextLayer options
     getText: d => d.text,
@@ -132,11 +147,11 @@ export default function App({data, noOverlap = true, fontSize = 32}) {
 
     // CollideExtension options
     collisionEnabled: noOverlap,
-    getCollisionPriority: d => d.relevance / 7,
+    getCollisionPriority: d => d.relevance,
     collisionTestProps: {
-      //sizeScale: fontSize * 2,
-      sizeMaxPixels: sizeMaxPixels * 2,
-      sizeMinPixels: sizeMinPixels * 2
+      sizeScale: 2.2,
+      sizeMaxPixels: sizeMaxPixels * 10,
+      sizeMinPixels: sizeMinPixels * 10
     },
     extensions: [new CollisionFilterExtension()],
 
@@ -149,6 +164,8 @@ export default function App({data, noOverlap = true, fontSize = 32}) {
                       setCurrentInfo(info.object)
                       setDrawerStatus("overview")
                     },
+    onHover: info => {handleHover(info)}
+    
 
   });
 
@@ -166,9 +183,14 @@ export default function App({data, noOverlap = true, fontSize = 32}) {
       layers={[textLayer]}
       initialViewState={INITIAL_VIEW_STATE}
       onViewStateChange={onViewStateChange}
-      controller={{touchRotate: true,dragRotate: true}}
-      getCursor={() => "cursor"}
+      controller={{touchRotate: true,dragRotate: false}}
+      getCursor={() => cursorState}
     >
+    <Map 
+        mapboxAccessToken={mapboxAccessToken} 
+        mapStyle={mapStyle} 
+        preventStyleDiffing={true} 
+      />
     </DeckGL>
     
     </>
