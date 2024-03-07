@@ -110,7 +110,7 @@ function a11yProps(index) {
     };
     let { subtopic, text } = currentInfo || {}
 
-  return (<>
+  return (<div style={{marginTop:"77px"}}> 
     <p className='topic'> {text}</p>
     <p className='subTopic'>{subtopic}</p>
 
@@ -127,6 +127,6 @@ function a11yProps(index) {
     <CustomTabPanel value={value} index={1}>
       <Overview />
     </CustomTabPanel>
-  </>)
+  </div>)
 
 }
