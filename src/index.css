@@ -69,72 +69,209 @@ button:focus-visible {
 
 /* Drawer */
 
-.MuiModal-root{
+.MuiModal-root {
   position: static !important;
   z-index: auto !important;
-  padding:14px !important;
-  margin-left:10px;
+  padding: 14px !important;
+  margin-left: 10px;
 }
-.MuiDrawer-paper{
-  left:86px !important;
+.MuiDrawer-paper {
+  left: 86px !important;
+  padding: 14px !important;
 }
-.popDrawer{
-  padding:20px;
+
+.popDrawer {
+  padding: 20px;
 }
-.MuiModal-root .topic{
+
+.MuiModal-root .topic {
   font-weight: bold;
   font-size: 22px;
-  color:#101518;
-  margin:18px 0 0;
-  padding:0 18px;
+  color: #101518;
+  margin: 18px 0 0;
+  padding: 0 18px;
 }
 .MuiButtonBase-root {
-  text-transform:none !important;
+  text-transform: none !important;
 }
-.knowledgeTag{
+.knowledgeTag {
   margin-bottom: 10px !important;
   margin-right: 6px !important;
 
-  background:#E0F4FF !important;
-   color:#136682 !important;
-   
+  background: #e0f4ff !important;
+  color: #136682 !important;
 }
-.MuiModal-root .subTopic{
+.MuiModal-root .subTopic {
   font-size: 14px;
-  color:#6E767A;
-  margin:6px;
-  padding:0 12px;
+  color: #6e767a;
+  margin: 6px;
+  padding: 0 12px;
 }
-.stack{
+.stack {
   margin-bottom: 10px;
 }
 
 /* leftbar */
-.leftbar{
-  position:absolute;
+.leftbar {
+  position: absolute;
   z-index: 99999 !important;
   background: #ffffff;
-  height:100%;
-  width:85px;
-  top:0;
-  left:0;
+  height: 100%;
+  width: 85px;
+  top: 0;
+  left: 0;
   bottom: 0;
   box-shadow: 2px 0px 3px #f9f9f9;
 }
-.logo{
+
+.logo {
   position: relative;
 }
-.LogoUnderText{
+
+.LogoUnderText {
   position: absolute;
-  top:0px;
-  left:2px;
-}
-.LeftbarIcon{
-  cursor: pointer;
-  padding:10px 10px 6px;
+  top: 0px;
+  left: 2px;
 }
 
-.defaultValue{
-  width:350px;
-  margin-left:30px;
+/* Zoom controls */
+.zoom-controls {
+  position: absolute;
+  bottom: 20px;
+  right: 30px;
+  display: vertical;
+  z-index: 999;
+}
+.zoom-controls button {
+  width: 50px;
+  height: 50px;
+  margin-bottom: 5px;
+  cursor: pointer;
+  background-color: #ccc;
+  color: #101518;
+  font-size: 20px;
+  border: 2px solid #666;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Modal form */
+form {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  margin-left: 50px;
+  font-family: "Raleway", sans-serif;
+}
+
+.form-group {
+  width: 900px;
+}
+
+input {
+  width: 180px;
+  margin-bottom: 10px;
+  background-color: white;
+  outline: none;
+  border: none;
+  transition: border-bottom 1s ease; /* Smooth transition for underline */
+  color: black;
+  font-size: large;
+  font-family: "Raleway", sans-serif;
+}
+input:hover {
+  border-bottom: 1px solid blue;
+}
+
+label {
+  color: rgb(90, 74, 180);
+  margin-right: 10px;
+}
+
+.name-input {
+  display: flex;
+  height: 30px;
+  margin-bottom: 20px;
+}
+
+.save-button {
+  margin-top: 15px;
+  margin-right: 360px;
+  background-color: #9ab4bd;
+  /* color: #4b7d94; */
+  font-weight: 500;
+  font-size: large;
+  color: white;
+}
+.save-button:hover {
+  background-color: #134c62;
+}
+.save-button.submitted {
+  background-color: #9ab4bd;
+  color: #4b7d94;
+}
+
+.main-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+  margin-left: 280px;
+  opacity: 0.8;
+}
+
+.text-box {
+  width: auto;
+  font-size: 15px;
+  margin-right: 400px;
+  margin-left: 50px;
+  font-family: "Raleway", sans-serif;
+  color: black;
+  font-weight: 400;
+}
+.text-box h2 {
+  color: black;
+  font-size: 34px;
+  font-weight: 600;
+}
+
+.donate-text {
+  color: black;
+  margin-top: 20px;
+  margin-left: 50px;
+  font-family: "Raleway", sans-serif;
+  margin-right: 400px;
+}
+.donate-button {
+  width: 20%;
+  margin-top: 20px;
+  margin-left: 50px;
+  height: 40px;
+}
+.donate-button:hover {
+  background-color: #434148;
+}
+.donate-button:disabled {
+  background-color: #c0c0c2;
+}
+
+.LeftbarIcon {
+  cursor: pointer;
+  padding: 10px 10px 6px;
+}
+
+.defaultValue {
+  width: 350px;
+  margin-left: 30px;
+}
+
+.bulb {
+  height: 780px;
+}
+
+.thank-you-message {
+  color: #13b4a1;
 }
