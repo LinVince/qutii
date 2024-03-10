@@ -161,8 +161,8 @@ export default function App({data, noOverlap = true, fontSize = 32}) {
     pickable: true,
     onClick: info => {info.object.sizeScale = fontSize * 1.5; 
                       console.log('Clicked on:', info.object)
-                      setCurrentInfo(info.object)
-                      setDrawerStatus("overview")
+                      info.object?.type === 'subtopic' && setCurrentInfo(info.object)
+                      info.object?.type === 'subtopic' && setDrawerStatus("overview")
                     },
     onHover: info => {handleHover(info)}
     
