@@ -1,25 +1,53 @@
 import React, { useEffect, useMemo } from 'react';
 import { useState, useCallback, useContext } from 'react';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
-import "../index.css";
+import '../index.css';
 import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
+import { ThemeProvider, createTheme } from '@mui/material';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 
-import KnowledgeSearch from "./Search";
-import Overview from "./Overview";
-import QuestionsAnswers from "./Questions&answer";
+import KnowledgeSearch from './Search';
+import Overview from './Overview';
+import QuestionsAnswers from './Questions&answer';
+
+const theme = createTheme({
+  components: {
+    // Style overrides for Tab component
+    MuiTab: {
+      styleOverrides: {
+        root: {
+          color: '#156582', // Text color for unselected tabs
+          '&.Mui-selected': {
+            color: '#156582', // Text color for the selected tab
+          },
+          '&:focus': {
+            outline: 'none', // Remove border or outline on focus
+            backgroundColor: 'transparent', // Optional: in case you want to remove or change background color on focus
+          },
+        },
+      },
+    },
+    // Style overrides for Tabs component
+    MuiTabs: {
+      styleOverrides: {
+        indicator: {
+          backgroundColor: '#156582', // Indicator color
+        },
+      },
+    },
+  },
+});
 
 export default function Knowledge_Drawer(props) {
-  const { currentInfo, drawerStatus, setDrawerStatus } = props
+  const { currentInfo, drawerStatus, setDrawerStatus } = props;
 
   const [state, setDrawerOpen] = React.useState(false);
-  const toggleDrawer =
-    (open) => {
-      setDrawerOpen(open);
-    }
+  const toggleDrawer = open => {
+    setDrawerOpen(open);
+  };
 
   // Controls the opening and closing of the drawer via the currentInfo passed by the parent component.
   // useEffect(() => {
@@ -30,12 +58,12 @@ export default function Knowledge_Drawer(props) {
   // }, [currentInfo])
 
   const [value, setValue] = useState(0);
-  let StateProps={
-    value:value,
-    setValue:setValue,
-  }
+  let StateProps = {
+    value: value,
+    setValue: setValue,
+  };
   return (
-    <Box sx={{ borderBottom: 1, width: '412px' }}>
+    <Box sx={{ borderBottom: 1 }} borderWidth={1}>
       <SwipeableDrawer
         open={!!drawerStatus}
         onClose={() => setDrawerStatus(false)}
@@ -43,33 +71,39 @@ export default function Knowledge_Drawer(props) {
         defaultValue={false}
       >
         {/* Search */}
-        <KnowledgeSearch />
+        <Box sx={{ paddingX: '10px' }}>
+          <KnowledgeSearch />
+        </Box>
+
         {/* Knowledge Topic*/}
         {renderDrawerContent(drawerStatus, currentInfo, StateProps)}
       </SwipeableDrawer>
     </Box>
-
-  )
+  );
 }
 
-function renderDrawerContent(drawerStatus, currentInfo,props) {
+function renderDrawerContent(drawerStatus, currentInfo, props) {
   if (drawerStatus) {
     switch (drawerStatus) {
-      case "overview":
+      case 'overview':
         if (currentInfo) {
-          return renderOverview(currentInfo,props)
+          return renderOverview(currentInfo, props);
         } else {
-          return (<div className="defaultValue">
-            Welcome to QuTii Knowledge Map. Navigate the map and click on the topic you are interested in and relevant information will be displayed here.
-          </div>)
+          return (
+            <Box sx={{ paddingX: '10px' }}>
+              Welcome to QuTii Knowledge Map. Navigate the map and click on the
+              topic you are interested in and relevant information will be
+              displayed here.
+            </Box>
+          );
         }
-      case "bookmark":
-        return <div>bookMark</div>
-      case "personal":
-        return <div>personal</div>
+      case 'bookmark':
+        return <div>bookMark</div>;
+      case 'personal':
+        return <div>personal</div>;
     }
   }
-  return <div></div>
+  return <div></div>;
 }
 
 function CustomTabPanel(props) {
@@ -84,7 +118,7 @@ function CustomTabPanel(props) {
       {...other}
     >
       {value === index && (
-        <Box sx={{ p: 3 }}>
+        <Box>
           <Typography>{children}</Typography>
         </Box>
       )}
@@ -103,30 +137,40 @@ function a11yProps(index) {
   };
 }
 
-  const renderOverview = (currentInfo,props={}) => {
-    let {value, setValue}=props;
-    const handleChange = (event, newValue) => {
-      setValue(newValue);
-    };
-    let { subtopic, text } = currentInfo || {}
+const renderOverview = (currentInfo, props = {}) => {
+  let { value, setValue } = props;
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+  let { subtopic, text } = currentInfo || {};
 
-  return (<>
-    <p className='topic'> {text}</p>
-    <p className='subTopic'>{subtopic}</p>
+  return (
+    <ThemeProvider theme={theme}>
+      <div>
+        <p className="topic"> {text}</p>
+        <p className="subTopic">{subtopic}</p>
+      </div>
 
-    {/* Detail tab and content */}
-    <Box sx={{ borderBottom: 1, borderColor: 'divider', marginTop: "20px" }}>
-      <Tabs value={value} onChange={handleChange} aria-label="Knowlwdge">
-        <Tab label="Questions & Answers" {...a11yProps(0)} />
-        <Tab label="Overview" {...a11yProps(1)} />
-      </Tabs>
-    </Box>
-    <CustomTabPanel value={value} index={0}>
-      <QuestionsAnswers />
-    </CustomTabPanel>
-    <CustomTabPanel value={value} index={1}>
-      <Overview />
-    </CustomTabPanel>
-  </>)
-
-}
+      {/* Detail tab and content */}
+      <Box
+        sx={{
+          borderBottom: 1,
+          borderColor: 'divider',
+          marginTop: '20px',
+          paddingX: '10px',
+        }}
+      >
+        <Tabs value={value} onChange={handleChange} aria-label="Knowlwdge">
+          <Tab label="Questions & Answers" {...a11yProps(0)} />
+          <Tab label="Overview" {...a11yProps(1)} />
+        </Tabs>
+      </Box>
+      <CustomTabPanel value={value} index={0}>
+        <QuestionsAnswers />
+      </CustomTabPanel>
+      <CustomTabPanel value={value} index={1}>
+        <Overview />
+      </CustomTabPanel>
+    </ThemeProvider>
+  );
+};

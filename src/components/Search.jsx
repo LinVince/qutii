@@ -9,11 +9,16 @@ export default function KnowledgeSearch() {
   return (
     <Paper
       component="form"
-      sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', margin:"14px auto",width: 390,height:42 }}
+      sx={{
+        display: 'flex',
+        alignItems: 'center',
+        margin: '14px auto',
+        width: '100%',
+        height: 42,
+      }}
     >
-     
       <InputBase
-        sx={{ ml: 1, flex: 1 }}
+        sx={{ ml: 1, flex: 1, width: '100%', px: '10px', py: '5px' }}
         placeholder="Search Google Maps"
         inputProps={{ 'aria-label': 'search google maps' }}
       />
@@ -21,7 +26,6 @@ export default function KnowledgeSearch() {
         {/* <SearchIcon /> */}
       </IconButton>
       <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
-      
     </Paper>
   );
 }

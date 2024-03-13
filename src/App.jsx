@@ -1,28 +1,27 @@
-import React from "react";
-import { useState, useCallback } from "react";
-import { createRoot } from "react-dom/client";
-import { Map } from "react-map-gl";
-import "mapbox-gl/dist/mapbox-gl.css";
-import DeckGL from "@deck.gl/react";
-import { MapView } from "@deck.gl/core";
-import { TextLayer } from "@deck.gl/layers";
-import { CollisionFilterExtension } from "@deck.gl/extensions";
-import { scaleLinear } from "d3-scale";
-import { CSVLoader } from "@loaders.gl/csv";
-import { load } from "@loaders.gl/core";
-import Drawer from "./components/Drawer";
-import Leftbar from "./components/Leftbar";
-import ZoomControls from "./components/ZoomControls";
-import UserInfoModal from "./components/PopUpForm";
+import React from 'react';
+import { useState, useCallback } from 'react';
+import { createRoot } from 'react-dom/client';
+import { Map } from 'react-map-gl';
+import 'mapbox-gl/dist/mapbox-gl.css';
+import DeckGL from '@deck.gl/react';
+import { MapView } from '@deck.gl/core';
+import { TextLayer } from '@deck.gl/layers';
+import { CollisionFilterExtension } from '@deck.gl/extensions';
+import { scaleLinear } from 'd3-scale';
+import { CSVLoader } from '@loaders.gl/csv';
+import { load } from '@loaders.gl/core';
+import Drawer from './components/Drawer';
+import Leftbar from './components/Leftbar';
+import ZoomControls from './components/ZoomControls';
+import UserInfoModal from './components/PopUpForm';
 
 // Sample datcoa
 const DATA_URL =
-  "https://raw.githubusercontent.com/LinVince/knowledge_map/main/final_data II.csv";
+  'https://raw.githubusercontent.com/LinVince/knowledge_map/main/final_data II.csv';
 
-
-const mapStyle = 'mapbox://styles/vincejim/clptmnrul00co01r53737ar8c'
-const mapboxAccessToken = 'pk.eyJ1IjoidmluY2VqaW0iLCJhIjoiY2xvdnlzeGoyMTYzZDJxbHFjZTA2ejEzMyJ9.BSDmnQnGrI2VFa83kGl9QA'
-
+const mapStyle = 'mapbox://styles/vincejim/clptmnrul00co01r53737ar8c';
+const mapboxAccessToken =
+  'pk.eyJ1IjoidmluY2VqaW0iLCJhIjoiY2xvdnlzeGoyMTYzZDJxbHFjZTA2ejEzMyJ9.BSDmnQnGrI2VFa83kGl9QA';
 
 const INITIAL_VIEW_STATE = {
   latitude: 0,
@@ -46,14 +45,14 @@ const INITIAL_VIEW_STATE = {
 
 export default function App({ data, noOverlap = true, fontSize = 32 }) {
   const [zoom, setZoom] = useState(INITIAL_VIEW_STATE.zoom);
-  const [currentInfo, setCurrentInfo]=useState()
-  const [drawerStatus, setDrawerStatus]=useState(false)
-  const [cursorState, setCursorState]=useState('cursor')
+  const [currentInfo, setCurrentInfo] = useState();
+  const [drawerStatus, setDrawerStatus] = useState(false);
+  const [cursorState, setCursorState] = useState('cursor');
   const [isUserInfoModalOpen, setIsUserInfoModalOpen] = useState(true);
   const [newUserInfo, setNewUserInfo] = useState(null);
 
-  const handleSaveUserInfo = (userInfo) => {
-    console.log("New User Information", userInfo);
+  const handleSaveUserInfo = userInfo => {
+    console.log('New User Information', userInfo);
     setNewUserInfo(userInfo);
   };
 
@@ -75,11 +74,11 @@ export default function App({ data, noOverlap = true, fontSize = 32 }) {
     // Restrict latitude and longitude within bounds
     let newLatitude = Math.min(
       Math.max(viewState.latitude, MIN_LATITUDE),
-      MAX_LATITUDE
+      MAX_LATITUDE,
     );
     let newLongitude = Math.min(
       Math.max(viewState.longitude, MIN_LONGITUDE),
-      MAX_LONGITUDE
+      MAX_LONGITUDE,
     );
 
     // Return updated view state
@@ -102,20 +101,20 @@ export default function App({ data, noOverlap = true, fontSize = 32 }) {
   const sizeMaxPixels = (scale / 3) * fontSize;
   const sizeMinPixels = Math.min(scale / 1000, 0.5) * fontSize;
 
-  const checkTopicColor = (type, text, ancestor = "", parent = "") => {
+  const checkTopicColor = (type, text, ancestor = '', parent = '') => {
     switch (type) {
-      case "macrotopic":
-        if (text === "smart city") {
+      case 'macrotopic':
+        if (text === 'smart city') {
           return [31, 131, 105, 255];
         }
         break;
-      case "topic":
-        if (parent === "smart city") {
+      case 'topic':
+        if (parent === 'smart city') {
           return [64, 161, 137, 255];
         }
         break;
-      case "subtopic":
-        if (ancestor === "smart city") {
+      case 'subtopic':
+        if (ancestor === 'smart city') {
           return [160, 233, 214, 255];
         }
         break;
@@ -124,39 +123,37 @@ export default function App({ data, noOverlap = true, fontSize = 32 }) {
     }
   };
 
-  const checkFontSize = (type) => {
+  const checkFontSize = type => {
     switch (type) {
-      case "macrotopic":
+      case 'macrotopic':
         return 64;
-      case "topic":
+      case 'topic':
         return 24;
       case 'subtopic':
         return 20;
     }
-  } 
+  };
   const textLayer = new TextLayer({
-    id: "knowledge_map",
+    id: 'knowledge_map',
     data,
-    characterSet: "auto",
+    characterSet: 'auto',
     fontSettings: {
       buffer: 8,
-      
     },
-    fontFamily: "Gill Sans Extrabold, sans-serif",
+    fontFamily: 'Gill Sans Extrabold, sans-serif',
     fontWeight: 'bold',
-    
 
     // TextLayer options
-    getText: (d) => d.text,
-    getPosition: (d) => [d.longitude, d.latitude],
-    getColor: (d) =>
+    getText: d => d.text,
+    getPosition: d => [d.longitude, d.latitude],
+    getColor: d =>
       checkTopicColor(
         d.type?.toLowerCase(),
         d.text?.toLowerCase(),
         d.ancestor?.toLowerCase(),
-        d.parent?.toLowerCase()
+        d.parent?.toLowerCase(),
       ),
-    getSize: (d) => checkFontSize(d.type), //d.relevance/100,
+    getSize: d => checkFontSize(d.type), //d.relevance/100,
 
     //sizeScale: fontSize,
     sizeMaxPixels,
@@ -169,7 +166,7 @@ export default function App({ data, noOverlap = true, fontSize = 32 }) {
     collisionTestProps: {
       sizeScale: 2.2,
       sizeMaxPixels: sizeMaxPixels * 10,
-      sizeMinPixels: sizeMinPixels * 10
+      sizeMinPixels: sizeMinPixels * 10,
     },
     extensions: [new CollisionFilterExtension()],
 
@@ -177,21 +174,22 @@ export default function App({ data, noOverlap = true, fontSize = 32 }) {
 
     interactive: true,
     pickable: true,
-    onClick: info => {info.object.sizeScale = fontSize * 1.5; 
-                      console.log('Clicked on:', info.object)
-                      info.object?.type === 'subtopic' && setCurrentInfo(info.object)
-                      info.object?.type === 'subtopic' && setDrawerStatus("overview")
-                    },
-    onHover: info => {handleHover(info)}
-    
-
+    onClick: info => {
+      info.object.sizeScale = fontSize * 1.5;
+      console.log('Clicked on:', info.object);
+      info.object?.type === 'subtopic' && setCurrentInfo(info.object);
+      info.object?.type === 'subtopic' && setDrawerStatus('overview');
+    },
+    onHover: info => {
+      handleHover(info);
+    },
   });
 
   const handleZoomIn = () => {
-    setZoom((prevZoom) => prevZoom + 1);
+    setZoom(prevZoom => prevZoom + 1);
   };
   const handleZoomOut = () => {
-    setZoom((prevZoom) => prevZoom - 1);
+    setZoom(prevZoom => prevZoom - 1);
   };
 
   return (
@@ -211,7 +209,7 @@ export default function App({ data, noOverlap = true, fontSize = 32 }) {
         initialViewState={INITIAL_VIEW_STATE}
         onViewStateChange={onViewStateChange}
         controller={{ touchRotate: true, dragRotate: true }}
-        getCursor={() => "cursor"}
+        getCursor={() => 'cursor'}
       >
         <UserInfoModal
           isOpen={isUserInfoModalOpen}
@@ -227,7 +225,7 @@ export function renderToDOM(container) {
   const root = createRoot(container);
   root.render(<App />);
 
-  load(DATA_URL, CSVLoader).then((data) => {
+  load(DATA_URL, CSVLoader).then(data => {
     root.render(<App data={data} />);
   });
 }

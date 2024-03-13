@@ -72,12 +72,14 @@ button:focus-visible {
 .MuiModal-root {
   position: static !important;
   z-index: auto !important;
-  padding: 14px !important;
-  margin-left: 10px;
+  padding:14px !important;
+  margin-left:10px;
 }
+
 .MuiDrawer-paper {
   left: 86px !important;
-  padding: 14px !important;
+  /* padding: 14px !important; */
+  width: 350px;
 }
 
 .popDrawer {
@@ -103,6 +105,7 @@ button:focus-visible {
 }
 .MuiModal-root .subTopic {
   font-size: 14px;
+  text-wrap: wrap;
   color: #6e767a;
   margin: 6px;
   padding: 0 12px;
@@ -121,6 +124,7 @@ button:focus-visible {
   top: 0;
   left: 0;
   bottom: 0;
+  box-shadow: 2px 0px 3px #f9f9f9;
   box-shadow: 2px 0px 3px #f9f9f9;
 }
 
