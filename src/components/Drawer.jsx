@@ -8,38 +8,11 @@ import { ThemeProvider, createTheme } from '@mui/material';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
+import CloseIcon from '@mui/icons-material/Close';
 
 import KnowledgeSearch from './Search';
 import Overview from './Overview';
 import QuestionsAnswers from './Questions&answer';
-
-const theme = createTheme({
-  components: {
-    // Style overrides for Tab component
-    MuiTab: {
-      styleOverrides: {
-        root: {
-          color: '#156582', // Text color for unselected tabs
-          '&.Mui-selected': {
-            color: '#156582', // Text color for the selected tab
-          },
-          '&:focus': {
-            outline: 'none', // Remove border or outline on focus
-            backgroundColor: 'transparent', // Optional: in case you want to remove or change background color on focus
-          },
-        },
-      },
-    },
-    // Style overrides for Tabs component
-    MuiTabs: {
-      styleOverrides: {
-        indicator: {
-          backgroundColor: '#156582', // Indicator color
-        },
-      },
-    },
-  },
-});
 
 export default function Knowledge_Drawer(props) {
   const { currentInfo, drawerStatus, setDrawerStatus } = props;
@@ -71,12 +44,26 @@ export default function Knowledge_Drawer(props) {
         defaultValue={false}
       >
         {/* Search */}
-        <Box sx={{ paddingX: '10px' }}>
-          <KnowledgeSearch />
-        </Box>
+        {/* TODO Decide on where to place the search input */}
+        <Box sx={{ paddingX: '10px' }}>{/* <KnowledgeSearch /> */}</Box>
 
         {/* Knowledge Topic*/}
-        {renderDrawerContent(drawerStatus, currentInfo, StateProps)}
+        <Box sx={{ paddingTop: '20px' }}>
+          <Box
+            sx={{
+              display: 'flex',
+              width: '100%',
+              justifyContent: 'end',
+              paddingBottom: '20px',
+            }}
+          >
+            <CloseIcon
+              onClick={() => setDrawerStatus(false)}
+              sx={{ marginRight: '20px', cursor: 'pointer', color: '#4B7D94' }}
+            />
+          </Box>
+          {renderDrawerContent(drawerStatus, currentInfo, StateProps)}
+        </Box>
       </SwipeableDrawer>
     </Box>
   );
@@ -145,7 +132,7 @@ const renderOverview = (currentInfo, props = {}) => {
   let { subtopic, text } = currentInfo || {};
 
   return (
-    <ThemeProvider theme={theme}>
+    <>
       <div>
         <p className="topic"> {text}</p>
         <p className="subTopic">{subtopic}</p>
@@ -171,6 +158,6 @@ const renderOverview = (currentInfo, props = {}) => {
       <CustomTabPanel value={value} index={1}>
         <Overview />
       </CustomTabPanel>
-    </ThemeProvider>
+    </>
   );
 };

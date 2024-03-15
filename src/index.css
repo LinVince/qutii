@@ -1,5 +1,7 @@
+@import url('https://fonts.cdnfonts.com/css/raleway-5');
+
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Raleway', sans-serif, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
@@ -87,7 +89,7 @@ button:focus-visible {
 }
 
 .MuiModal-root .topic {
-  font-weight: bold;
+  font-weight: medium;
   font-size: 22px;
   color: #101518;
   margin: 18px 0 0;

@@ -1,19 +1,18 @@
-import React from 'react';
-import { useState, useCallback } from 'react';
+import { ThemeProvider } from '@mui/material';
+import { useState } from 'react';
 import { createRoot } from 'react-dom/client';
-import { Map } from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import DeckGL from '@deck.gl/react';
 import { MapView } from '@deck.gl/core';
 import { TextLayer } from '@deck.gl/layers';
 import { CollisionFilterExtension } from '@deck.gl/extensions';
-import { scaleLinear } from 'd3-scale';
 import { CSVLoader } from '@loaders.gl/csv';
 import { load } from '@loaders.gl/core';
 import Drawer from './components/Drawer';
 import Leftbar from './components/Leftbar';
 import ZoomControls from './components/ZoomControls';
 import UserInfoModal from './components/PopUpForm';
+import { theme } from '../theme';
 
 // Sample datcoa
 const DATA_URL =
@@ -193,7 +192,7 @@ export default function App({ data, noOverlap = true, fontSize = 32 }) {
   };
 
   return (
-    <>
+    <ThemeProvider theme={theme}>
       <Leftbar setDrawerStatus={setDrawerStatus} drawerStatus={drawerStatus} />
 
       {/* vision2 hidden */}
@@ -217,7 +216,7 @@ export default function App({ data, noOverlap = true, fontSize = 32 }) {
           onSave={handleSaveUserInfo}
         />
       </DeckGL>
-    </>
+    </ThemeProvider>
   );
 }
 
