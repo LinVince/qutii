@@ -25,8 +25,10 @@ const QuestionsAndAnswer = () => {
 
   return (
     <Box>
-      <Box bgcolor="#EEF5F7" p="10px">
-        <Typography>2,399 questions and answers</Typography>
+      <Box bgcolor="#EEF5F7" px="13px" py="15px">
+        <Typography fontSize="14px" fontWeight="medium">
+          2,399 questions and answers
+        </Typography>
         <Stack
           direction="row"
           alignItems="center"
@@ -54,7 +56,8 @@ const QuestionsAndAnswer = () => {
               }}
               variant="outlined"
             >
-              <FilterAltIcon /> Filter
+              <FilterAltIcon fontSize="14px" style={{ marginRight: '2px' }} />
+              Filter
             </Button>
           </Box>
         </Stack>
@@ -76,46 +79,68 @@ const QuestionsAndAnswer = () => {
             id="panel1-header"
           >
             <Box>
-              <Typography>
+              <Typography fontWeight="bold">
                 What are the key objectives of the Paris Agreement?
               </Typography>
-              <Box sx={{ display: 'flex', gap: 1 }}>
-                <Typography color="#dae5e1" fontSize={14}>
+              <Box
+                sx={{
+                  display: 'flex',
+                  gap: 1,
+                  color: '#146682',
+                  marginTop: '5px',
+                }}
+              >
+                <Typography fontSize={14} fontWeight="600">
                   3 January ‘24
                 </Typography>
-                <Typography color="#dae5e1"> &#x2022;</Typography>
-                <Typography color="#dae5e1" fontSize={14}>
+                <Typography fontWeight="600"> &#x2022;</Typography>
+                <Typography fontSize={14} fontWeight="600">
                   TQ Score: 22
                 </Typography>
-                <Typography color="#dae5e1">&#x2022;</Typography>
-                <Typography color="#dae5e1" fontSize={14}>
+                <Typography fontWeight="600">&#x2022;</Typography>
+                <Typography fontSize={14} fontWeight="600">
                   120 Views
                 </Typography>
               </Box>
             </Box>
           </AccordionSummary>
           <AccordionDetails sx={{ padding: 0 }}>
-            <Typography>
+            <Typography fontSize="14px">
               The Paris Agreement aims to limit global temperature increase to
               well below 2 degrees Celsius above pre-industrial levels, enhance
               global climate resilience, and foster sustainable development.
             </Typography>
             <Typography
-              fontSize={14}
+              fontSize={12}
               mt={1}
               sx={{ display: 'flex', alignItems: 'center', width: '100%' }}
+              as="span"
             >
               Source:
-              <Typography fontSize={14} ml={1}>
-                https://www.example-research.com/climate...{' '}
+              <Typography fontSize={12} ml={1} as="span" color="#146682">
+                https://www.example-research.com/climate...
               </Typography>{' '}
             </Typography>
-            <Typography mt={1}>Keywords</Typography>
-            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }} mt={1}>
+            <Typography mt={1} fontWeight="bold">
+              Keywords
+            </Typography>
+            <Box
+              sx={{
+                display: 'flex',
+                flexWrap: 'wrap',
+                gap: 1,
+                fontSize: '12px',
+              }}
+              mt={1}
+            >
               <Chip
                 color="primary"
                 label="Climate Resilience Measures"
-                sx={{ borderRadius: 1, color: '#146682', bgcolor: '#e0f4ff' }}
+                sx={{
+                  borderRadius: 1,
+                  color: '#146682',
+                  bgcolor: '#e0f4ff',
+                }}
               />
               <Chip
                 color="primary"
@@ -145,47 +170,69 @@ const QuestionsAndAnswer = () => {
             id="panel1-header"
           >
             <Box>
-              <Typography>
+              <Typography fontWeight="bold">
                 How are countries held accountable for their climate commitments
                 under the Paris Agreement?
               </Typography>
-              <Box sx={{ display: 'flex', gap: 1 }}>
-                <Typography color="#dae5e1" fontSize={14}>
+              <Box
+                sx={{
+                  display: 'flex',
+                  gap: 1,
+                  color: '#146682',
+                  marginTop: '5px',
+                }}
+              >
+                <Typography fontSize={14} fontWeight="600">
                   3 January ‘24
                 </Typography>
-                <Typography color="#dae5e1"> &#x2022;</Typography>
-                <Typography color="#dae5e1" fontSize={14}>
+                <Typography fontWeight="600"> &#x2022;</Typography>
+                <Typography fontSize={14} fontWeight="600">
                   TQ Score: 22
                 </Typography>
-                <Typography color="#dae5e1">&#x2022;</Typography>
-                <Typography color="#dae5e1" fontSize={14}>
+                <Typography fontWeight="600">&#x2022;</Typography>
+                <Typography fontSize={14} fontWeight="600">
                   120 Views
                 </Typography>
               </Box>
             </Box>
           </AccordionSummary>
           <AccordionDetails sx={{ padding: 0 }}>
-            <Typography>
+            <Typography fontSize="14px">
               The Paris Agreement aims to limit global temperature increase to
               well below 2 degrees Celsius above pre-industrial levels, enhance
               global climate resilience, and foster sustainable development.
             </Typography>
             <Typography
-              fontSize={14}
+              fontSize={12}
               mt={1}
               sx={{ display: 'flex', alignItems: 'center', width: '100%' }}
+              as="span"
             >
               Source:
-              <Typography fontSize={14} ml={1}>
-                https://www.example-research.com/climate...{' '}
+              <Typography fontSize={12} ml={1} as="span" color="#146682">
+                https://www.example-research.com/climate...
               </Typography>{' '}
             </Typography>
-            <Typography mt={1}>Keywords</Typography>
-            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }} mt={1}>
+            <Typography mt={1} fontWeight="bold">
+              Keywords
+            </Typography>
+            <Box
+              sx={{
+                display: 'flex',
+                flexWrap: 'wrap',
+                gap: 1,
+                fontSize: '12px',
+              }}
+              mt={1}
+            >
               <Chip
                 color="primary"
                 label="Climate Resilience Measures"
-                sx={{ borderRadius: 1, color: '#146682', bgcolor: '#e0f4ff' }}
+                sx={{
+                  borderRadius: 1,
+                  color: '#146682',
+                  bgcolor: '#e0f4ff',
+                }}
               />
               <Chip
                 color="primary"
@@ -215,116 +262,69 @@ const QuestionsAndAnswer = () => {
             id="panel1-header"
           >
             <Box>
-              <Typography>
-                What are the key objectives of the Paris Agreement?
-              </Typography>
-              <Box sx={{ display: 'flex', gap: 1 }}>
-                <Typography color="#dae5e1" fontSize={14}>
-                  3 January ‘24
-                </Typography>
-                <Typography color="#dae5e1"> &#x2022;</Typography>
-                <Typography color="#dae5e1" fontSize={14}>
-                  TQ Score: 22
-                </Typography>
-                <Typography color="#dae5e1">&#x2022;</Typography>
-                <Typography color="#dae5e1" fontSize={14}>
-                  120 Views
-                </Typography>
-              </Box>
-            </Box>
-          </AccordionSummary>
-          <AccordionDetails sx={{ padding: 0 }}>
-            <Typography>
-              The Paris Agreement aims to limit global temperature increase to
-              well below 2 degrees Celsius above pre-industrial levels, enhance
-              global climate resilience, and foster sustainable development.
-            </Typography>
-            <Typography
-              fontSize={14}
-              mt={1}
-              sx={{ display: 'flex', alignItems: 'center', width: '100%' }}
-            >
-              Source:
-              <Typography fontSize={14} ml={1}>
-                https://www.example-research.com/climate...{' '}
-              </Typography>{' '}
-            </Typography>
-            <Typography mt={1}>Keywords</Typography>
-            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }} mt={1}>
-              <Chip
-                color="primary"
-                label="Climate Resilience Measures"
-                sx={{ borderRadius: 1, color: '#146682', bgcolor: '#e0f4ff' }}
-              />
-              <Chip
-                color="primary"
-                label="Sustainable Development"
-                sx={{ borderRadius: 1, color: '#146682', bgcolor: '#e0f4ff' }}
-              />
-              <Chip
-                color="primary"
-                label="Global Temperature Limit"
-                sx={{ borderRadius: 1, color: '#146682', bgcolor: '#e0f4ff' }}
-              />
-            </Box>
-          </AccordionDetails>
-        </Accordion>
-        <Accordion
-          sx={{
-            w: '100%',
-            borderTop: 0,
-            padding: 0,
-          }}
-          variant="unstyled"
-        >
-          <AccordionSummary
-            sx={{ borderTop: 0, padding: 0 }}
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1-content"
-            id="panel1-header"
-          >
-            <Box>
-              <Typography>
+              <Typography fontWeight="bold">
                 How are countries held accountable for their climate commitments
                 under the Paris Agreement?
               </Typography>
-              <Box sx={{ display: 'flex', gap: 1 }}>
-                <Typography color="#dae5e1" fontSize={14}>
+              <Box
+                sx={{
+                  display: 'flex',
+                  gap: 1,
+                  color: '#146682',
+                  marginTop: '5px',
+                }}
+              >
+                <Typography fontSize={14} fontWeight="600">
                   3 January ‘24
                 </Typography>
-                <Typography color="#dae5e1"> &#x2022;</Typography>
-                <Typography color="#dae5e1" fontSize={14}>
+                <Typography fontWeight="600"> &#x2022;</Typography>
+                <Typography fontSize={14} fontWeight="600">
                   TQ Score: 22
                 </Typography>
-                <Typography color="#dae5e1">&#x2022;</Typography>
-                <Typography color="#dae5e1" fontSize={14}>
+                <Typography fontWeight="600">&#x2022;</Typography>
+                <Typography fontSize={14} fontWeight="600">
                   120 Views
                 </Typography>
               </Box>
             </Box>
           </AccordionSummary>
           <AccordionDetails sx={{ padding: 0 }}>
-            <Typography>
+            <Typography fontSize="14px">
               The Paris Agreement aims to limit global temperature increase to
               well below 2 degrees Celsius above pre-industrial levels, enhance
               global climate resilience, and foster sustainable development.
             </Typography>
             <Typography
-              fontSize={14}
+              fontSize={12}
               mt={1}
               sx={{ display: 'flex', alignItems: 'center', width: '100%' }}
+              as="span"
             >
               Source:
-              <Typography fontSize={14} ml={1}>
-                https://www.example-research.com/climate...{' '}
+              <Typography fontSize={12} ml={1} as="span" color="#146682">
+                https://www.example-research.com/climate...
               </Typography>{' '}
             </Typography>
-            <Typography mt={1}>Keywords</Typography>
-            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }} mt={1}>
+            <Typography mt={1} fontWeight="bold">
+              Keywords
+            </Typography>
+            <Box
+              sx={{
+                display: 'flex',
+                flexWrap: 'wrap',
+                gap: 1,
+                fontSize: '12px',
+              }}
+              mt={1}
+            >
               <Chip
                 color="primary"
                 label="Climate Resilience Measures"
-                sx={{ borderRadius: 1, color: '#146682', bgcolor: '#e0f4ff' }}
+                sx={{
+                  borderRadius: 1,
+                  color: '#146682',
+                  bgcolor: '#e0f4ff',
+                }}
               />
               <Chip
                 color="primary"

@@ -59,7 +59,7 @@ export default function Knowledge_Drawer(props) {
           >
             <CloseIcon
               onClick={() => setDrawerStatus(false)}
-              sx={{ marginRight: '20px', cursor: 'pointer', color: '#4B7D94' }}
+              sx={{ marginRight: '35px', cursor: 'pointer', color: '#4B7D94' }}
             />
           </Box>
           {renderDrawerContent(drawerStatus, currentInfo, StateProps)}
@@ -148,8 +148,16 @@ const renderOverview = (currentInfo, props = {}) => {
         }}
       >
         <Tabs value={value} onChange={handleChange} aria-label="Knowlwdge">
-          <Tab label="Questions & Answers" {...a11yProps(0)} />
-          <Tab label="Overview" {...a11yProps(1)} />
+          <Tab
+            style={{ fontWeight: 'bold', color: value == 1 ? '#4B7D94' : '' }}
+            label="Questions & Answers"
+            {...a11yProps(0)}
+          />
+          <Tab
+            style={{ fontWeight: 'bold', color: value == 0 ? '#4B7D94' : '' }}
+            label="Overview"
+            {...a11yProps(1)}
+          />
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
