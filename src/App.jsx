@@ -13,6 +13,7 @@ import Leftbar from './components/Leftbar';
 import ZoomControls from './components/ZoomControls';
 import UserInfoModal from './components/PopUpForm';
 import { theme } from '../theme';
+import KnowledgeSearch from './components/Search';
 
 // Sample datcoa
 const DATA_URL =
@@ -23,9 +24,9 @@ const mapboxAccessToken =
   'pk.eyJ1IjoidmluY2VqaW0iLCJhIjoiY2xvdnlzeGoyMTYzZDJxbHFjZTA2ejEzMyJ9.BSDmnQnGrI2VFa83kGl9QA';
 
 const INITIAL_VIEW_STATE = {
-  latitude: 0,
+  latitude: 0.7416668866832955,
   longitude: 0,
-  zoom: 3.8,
+  zoom: 8.0,
   maxZoom: 16,
   minZoom: 1.4,
   pitch: 0,
@@ -201,6 +202,7 @@ export default function App({ data, noOverlap = true, fontSize = 32 }) {
         drawerStatus={drawerStatus}
         setDrawerStatus={setDrawerStatus}
       />
+      <KnowledgeSearch/>
       <ZoomControls onZoomIn={handleZoomIn} onZoomOut={handleZoomOut} />
       <DeckGL
         views={new MapView({ repeat: false })}

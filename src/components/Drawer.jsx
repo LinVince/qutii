@@ -36,7 +36,7 @@ export default function Knowledge_Drawer(props) {
     setValue: setValue,
   };
   return (
-    <Box sx={{ borderBottom: 1 }} borderWidth={1}>
+    <Box sx={{ borderBottom: 1 }} borderwidth={1}>
       <SwipeableDrawer
         open={!!drawerStatus}
         onClose={() => setDrawerStatus(false)}
