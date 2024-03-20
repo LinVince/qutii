@@ -25,7 +25,7 @@ const QuestionsAndAnswer = () => {
 
   return (
     <Box>
-      <Box bgcolor="#EEF5F7" px="13px" py="15px">
+      <Box bgcolor="#EEF5F7" px="16px" py="15px">
         <Typography fontSize="14px" fontWeight="medium">
           2,399 questions and answers
         </Typography>
@@ -33,7 +33,7 @@ const QuestionsAndAnswer = () => {
           direction="row"
           alignItems="center"
           spacing={3}
-          mt={1}
+          mt={2}
           sx={{ maxWidth: '377px' }}
         >
           <Box width="100%">
@@ -117,7 +117,13 @@ const QuestionsAndAnswer = () => {
               as="span"
             >
               Source:
-              <Typography fontSize={12} ml={1} as="span" color="#146682">
+              <Typography
+                fontSize={12}
+                ml={1}
+                as="span"
+                fontWeight="500"
+                color="#146682"
+              >
                 https://www.example-research.com/climate...
               </Typography>{' '}
             </Typography>
@@ -209,7 +215,13 @@ const QuestionsAndAnswer = () => {
               as="span"
             >
               Source:
-              <Typography fontSize={12} ml={1} as="span" color="#146682">
+              <Typography
+                fontSize={12}
+                ml={1}
+                fontWeight="500"
+                as="span"
+                color="#146682"
+              >
                 https://www.example-research.com/climate...
               </Typography>{' '}
             </Typography>
@@ -301,7 +313,13 @@ const QuestionsAndAnswer = () => {
               as="span"
             >
               Source:
-              <Typography fontSize={12} ml={1} as="span" color="#146682">
+              <Typography
+                fontSize={12}
+                fontWeight="500"
+                ml={1}
+                as="span"
+                color="#146682"
+              >
                 https://www.example-research.com/climate...
               </Typography>{' '}
             </Typography>
