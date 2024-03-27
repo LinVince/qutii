@@ -8,22 +8,23 @@ import { TextLayer } from '@deck.gl/layers';
 import { CollisionFilterExtension } from '@deck.gl/extensions';
 import { CSVLoader } from '@loaders.gl/csv';
 import { load } from '@loaders.gl/core';
-import Drawer from './components/Drawer';
-import Leftbar from './components/Leftbar';
-import ZoomControls from './components/ZoomControls';
-import UserInfoModal from './components/PopUpForm';
-import { theme } from '../theme';
-import KnowledgeSearch from './components/Search';
-import TrendingTopicBtnOverlay from './components/TrendingTopicBtnOverlay';
+import Drawer from '../components/Drawer';
+import Leftbar from '../components/Leftbar';
+import ZoomControls from '../components/ZoomControls';
+import UserInfoModal from '../components/PopUpForm';
+import { theme } from '../../theme';
+import KnowledgeSearch from '../components/Search';
+import TrendingTopicBtnOverlay from '../components/TrendingTopicBtnOverlay';
 import Box from '@mui/material/Box';
+import React from 'react';
 
 // Sample datcoa
 const DATA_URL =
-  'https://raw.githubusercontent.com/LinVince/knowledge_map/main/final_data II.csv';
+  'https://raw.githubusercontent.com/LinVince/knowledge_map/main/final_data%20II.csv';
 
-const mapStyle = 'mapbox://styles/vincejim/clptmnrul00co01r53737ar8c';
-const mapboxAccessToken =
-  'pk.eyJ1IjoidmluY2VqaW0iLCJhIjoiY2xvdnlzeGoyMTYzZDJxbHFjZTA2ejEzMyJ9.BSDmnQnGrI2VFa83kGl9QA';
+// const mapStyle = 'mapbox://styles/vincejim/clptmnrul00co01r53737ar8c';
+// const mapboxAccessToken =
+//   'pk.eyJ1IjoidmluY2VqaW0iLCJhIjoiY2xvdnlzeGoyMTYzZDJxbHFjZTA2ejEzMyJ9.BSDmnQnGrI2VFa83kGl9QA';
 
 
 const MAX_ZOOM = 16;
@@ -33,8 +34,8 @@ const INITIAL_VIEW_STATE = {
   latitude: 0.7416668866832955,
   longitude: 0,
   zoom: 8.0,
-  maxZoom: 16,
-  minZoom: 1.4,
+  maxZoom: MAX_ZOOM,
+  minZoom: MIN_ZOOM,
   pitch: 0,
   bearing: 0,
   transitionDuration: 1000,
@@ -53,7 +54,7 @@ const INITIAL_VIEW_STATE = {
 const noOverlap = true;
 const fontSize = 32;
 
-export default function App() {
+export default function Home() {
   const [viewState, setViewState] = useState(INITIAL_VIEW_STATE);
   const [data, setData] = useState(null);
   const [zoom] = useState(INITIAL_VIEW_STATE.zoom);
@@ -312,13 +313,4 @@ export default function App() {
       </DeckGL>
     </ThemeProvider>
   );
-}
-
-export function renderToDOM(container) {
-  const root = createRoot(container);
-  root.render(<App />);
-
-  load(DATA_URL, CSVLoader).then(data => {
-    root.render(<App data={data} />);
-  });
 }
