@@ -30,6 +30,7 @@ const QuestionsAndAnswer = () => {
           2,399 questions and answers
         </Typography>
         <Stack
+          bgcolor="#EEF5F7"
           direction="row"
           alignItems="center"
           spacing={3}
@@ -37,7 +38,7 @@ const QuestionsAndAnswer = () => {
           sx={{ maxWidth: '377px' }}
         >
           <Box width="100%">
-            <FormControl fullWidth size="small">
+            <FormControl fullWidth size="small" disabled>
               <InputLabel>By Relevance</InputLabel>
               <Select value={age} label="Age" onChange={handleChange}>
                 <MenuItem value={10}>Ten</MenuItem>
@@ -63,17 +64,26 @@ const QuestionsAndAnswer = () => {
         </Stack>
       </Box>
 
-      <Box sx={{ maxWidth: '392px' }} px="10px">
+      <Box
+        sx={{
+          maxWidth: '392px',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 3,
+          bgcolor: '#EEF5F7',
+        }}
+      >
         <Accordion
           sx={{
             w: '100%',
             borderTop: 0,
+            borderBottom: 0,
             padding: 0,
           }}
           variant="unstyled"
         >
           <AccordionSummary
-            sx={{ borderTop: 0, padding: 0 }}
+            sx={{ borderTop: 0, padding: 0, borderBottom: 0, px: '10px' }}
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel1-content"
             id="panel1-header"
@@ -104,7 +114,7 @@ const QuestionsAndAnswer = () => {
               </Box>
             </Box>
           </AccordionSummary>
-          <AccordionDetails sx={{ padding: 0 }}>
+          <AccordionDetails sx={{ padding: 0, paddingX: 1 }}>
             <Typography fontSize="14px">
               The Paris Agreement aims to limit global temperature increase to
               well below 2 degrees Celsius above pre-industrial levels, enhance
@@ -165,12 +175,14 @@ const QuestionsAndAnswer = () => {
           sx={{
             w: '100%',
             borderTop: 0,
+            borderBottom: 0,
             padding: 0,
+            // background: 'red',
           }}
           variant="unstyled"
         >
           <AccordionSummary
-            sx={{ borderTop: 0, padding: 0 }}
+            sx={{ borderTop: 0, padding: 0, borderBottom: 0, px: '10px' }}
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel1-content"
             id="panel1-header"
@@ -202,7 +214,7 @@ const QuestionsAndAnswer = () => {
               </Box>
             </Box>
           </AccordionSummary>
-          <AccordionDetails sx={{ padding: 0 }}>
+          <AccordionDetails sx={{ padding: 0, paddingX: 1 }}>
             <Typography fontSize="14px">
               The Paris Agreement aims to limit global temperature increase to
               well below 2 degrees Celsius above pre-industrial levels, enhance
@@ -264,11 +276,19 @@ const QuestionsAndAnswer = () => {
             w: '100%',
             borderTop: 0,
             padding: 0,
+            '.MuiAccordion-root:before': {
+              // Targets the pseudo-element that might be adding a border in Material-UI
+              display: 'none',
+            },
+            '.MuiAccordion-root:after': {
+              // Targets the pseudo-element that might be adding a border in Material-UI
+              display: 'none',
+            },
           }}
           variant="unstyled"
         >
           <AccordionSummary
-            sx={{ borderTop: 0, padding: 0 }}
+            sx={{ borderTop: 0, padding: 0, px: '10px' }}
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel1-content"
             id="panel1-header"
@@ -300,7 +320,7 @@ const QuestionsAndAnswer = () => {
               </Box>
             </Box>
           </AccordionSummary>
-          <AccordionDetails sx={{ padding: 0 }}>
+          <AccordionDetails sx={{ padding: 0, paddingX: 1 }}>
             <Typography fontSize="14px">
               The Paris Agreement aims to limit global temperature increase to
               well below 2 degrees Celsius above pre-industrial levels, enhance
