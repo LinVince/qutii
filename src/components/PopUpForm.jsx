@@ -103,7 +103,7 @@ const UserInfoModal = ({ isOpen, onRequestClose, onSave }) => {
       style={{
         overlay: {
           backgroundColor: 'rgba(0, 0, 0, 0.5)',
-          zIndex: 2,
+          zIndex: 10,
         },
         content: {
           inset: '50px',
