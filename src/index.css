@@ -25,12 +25,16 @@ a:hover {
   color: #535bf2;
 }
 
+*, ::after, :hover, :focus {
+  outline: none
+}
+
 body {
   margin: 0;
-  display: flex;
+  /* display: flex;
   place-items: center;
   min-width: 320px;
-  min-height: 100vh;
+  min-height: 100vh; */
 }
 
 h1 {
@@ -176,6 +180,10 @@ form {
   font-family: 'Raleway', sans-serif;
 }
 
+.raleway-font {
+  font-family: "Raleway", sans-serif;
+}
+
 .form-group {
   width: 900px;
 }
@@ -285,4 +293,15 @@ label {
 
 .thank-you-message {
   color: #13b4a1;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
 }
