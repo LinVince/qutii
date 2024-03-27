@@ -1,16 +1,16 @@
 import React from "react";
-import PropTypes from "prop-types";
 import ZoomOutIcon from "@mui/icons-material/ZoomOut";
 import ZoomInIcon from "@mui/icons-material/ZoomIn";
 
-const ZoomControls = ({ onZoomIn, onZoomOut }) => {
-  const handleZoomIn = () => {
-    onZoomIn();
-  };
+type ZoomControlsType = {
+  onZoomIn: () => void;
+  onZoomOut: () => void;
+}
 
-  const handleZoomOut = () => {
-    onZoomOut();
-  };
+const ZoomControls = ({ onZoomIn, onZoomOut }: ZoomControlsType) => {
+  const handleZoomIn = () => onZoomIn();
+
+  const handleZoomOut = () => onZoomOut();
 
   return (
     <div className="zoom-controls">
@@ -22,11 +22,6 @@ const ZoomControls = ({ onZoomIn, onZoomOut }) => {
       </button>
     </div>
   );
-};
-
-ZoomControls.propTypes = {
-  onZoomIn: PropTypes.func.isRequired,
-  onZoomOut: PropTypes.func.isRequired,
 };
 
 export default ZoomControls;

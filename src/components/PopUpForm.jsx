@@ -1,27 +1,27 @@
-import React, { useEffect, useState } from "react";
-import Modal from "react-modal";
+import React, { useEffect, useState } from 'react';
+import Modal from 'react-modal';
 
-Modal.setAppElement("#app");
+Modal.setAppElement('#app');
 
 const UserInfoModal = ({ isOpen, onRequestClose, onSave }) => {
-  const [email, setEmail] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const [isbuttonDisabled, setIsButtonDisabled] = useState(true);
-  const [buttonColor, setButtonColor] = useState(" #9ab4bd ");
+  const [buttonColor, setButtonColor] = useState(' #9ab4bd ');
   const [showThankYou, setShowThankYou] = useState(false);
   const [formComplete, setFormComplete] = useState(false);
 
   useEffect(() => {
     // Initialize modal form
     if (isOpen) {
-      document.body.style.overflow = "hidden";
+      document.body.style.overflow = 'hidden';
     } else {
-      document.body.style.overflow = "auto";
+      document.body.style.overflow = 'auto';
     }
     return () => {
-      document.body.style.overflow = "auto";
+      document.body.style.overflow = 'auto';
     };
   }, [isOpen]);
 
@@ -33,31 +33,62 @@ const UserInfoModal = ({ isOpen, onRequestClose, onSave }) => {
   useEffect(() => {
     // Enable save button when fields are filled
     setIsButtonDisabled(!(email && firstName && lastName));
-    setButtonColor(email && firstName && lastName ? "#034459" : "#9ab4bd");
+    setButtonColor(email && firstName && lastName ? '#034459' : '#9ab4bd');
   }, [email, firstName, lastName]);
 
-  const handleSave = (e) => {
-    // Prevent refresh on form submit
+  const handleSave = e => {
     e.preventDefault();
-    // Validate and save user information
-    if (email && firstName && lastName) {
-      onSave({ email, firstName, lastName });
-      setSubmitted(true);
-      setIsButtonDisabled(true);
-      setButtonColor("#9ab4bd");
-      setShowThankYou(true);
-      setFormComplete(true);
-      // Close the modal after 5 seconds
-      setTimeout(() => {
-        setFirstName("");
-        setLastName("");
-        setEmail("");
-        onRequestClose();
-      }, 5000);
-    } else {
-      alert("Please fill in all fields");
-    }
+    onSave({ email, firstName, lastName });
+    setSubmitted(true);
+    setIsButtonDisabled(true);
+    setButtonColor('#9ab4bd');
+    setShowThankYou(true);
+    setFormComplete(true);
+    setTimeout(() => {
+      setFirstName('');
+      setLastName('');
+      setEmail('');
+      onRequestClose();
+    }, 5000);
   };
+  // const handleSave = async (e) => {
+  //   // Prevent refresh on form submit
+  //   e.preventDefault();
+  //   // Validate and save user information
+  //   if (email && firstName && lastName) {
+  //     try {
+  //       const response = await fetch("http://18.133.159.120:8080/user/signup/", {
+  //         method: "POST",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //         body: JSON.stringify({ email, firstName, lastName }),
+  //       });
+
+  //       if (response.ok) {
+  //         onSave({ email, firstName, lastName });
+  //         setSubmitted(true);
+  //         setIsButtonDisabled(true);
+  //         setButtonColor("#9ab4bd");
+  //         setShowThankYou(true);
+  //         setFormComplete(true);
+  //         // Close the modal after 5 seconds
+  //         setTimeout(() => {
+  //           setFirstName("");
+  //           setLastName("");
+  //           setEmail("");
+  //           onRequestClose();
+  //         }, 5000);
+  //       } else {
+  //         console.error("Error:", response.statusText);
+  //       }
+  //     } catch (error) {
+  //       console.error("Error:", error);
+  //     }
+  //   } else {
+  //     alert("Please fill in all the fields");
+  //   }
+  // };
 
   return (
     <Modal
@@ -71,24 +102,42 @@ const UserInfoModal = ({ isOpen, onRequestClose, onSave }) => {
       contentLabel="User Information Modal"
       style={{
         overlay: {
-          backgroundColor: "rgba(0, 0, 0, 0.1)",
+          backgroundColor: 'rgba(0, 0, 0, 0.5)',
+          zIndex: 10,
         },
         content: {
-          inset: "50px",
-          marginRight: "300px",
-          marginLeft: "270px",
-          border: "1px solid black",
-          overflow: "hidden",
+          inset: '50px',
+          marginRight: '12%',
+          marginLeft: '10%',
+          border: '1px solid black',
+          overflow: 'scroll',
         },
       }}
     >
+      <button
+        onClick={onRequestClose}
+        className="close-button"
+        style={{
+          position: 'absolute',
+          top: '10px',
+          right: '10px',
+          cursor: 'pointer',
+          zIndex: 1,
+          border: 'none',
+          background: 'transparent',
+          fontSize: '30px',
+          color: 'black',
+        }}
+      >
+        &#10005;
+      </button>
       <div className="main-container">
         <div>
           <img
             className="bulb"
             src="bulb.jpeg"
             alt="Image of lightbulb puzzle"
-            style={{ width: 600, marginLeft: "60px" }}
+            style={{ width: 600, marginLeft: '60px' }}
           />
         </div>
 
@@ -123,14 +172,15 @@ const UserInfoModal = ({ isOpen, onRequestClose, onSave }) => {
                 <input
                   type="text"
                   value={firstName}
-                  onChange={(e) => setFirstName(e.target.value)}
+                  onChange={e => setFirstName(e.target.value)}
                   disabled={submitted}
+                  style={{ marginRight: '10px' }}
                 />
                 <label htmlFor="surname">Surname: </label>
                 <input
                   type="text"
                   value={lastName}
-                  onChange={(e) => setLastName(e.target.value)}
+                  onChange={e => setLastName(e.target.value)}
                   disabled={submitted}
                 />
               </div>
@@ -138,20 +188,20 @@ const UserInfoModal = ({ isOpen, onRequestClose, onSave }) => {
             <div className="form-group">
               <label htmlFor="email">Email Address</label>
               <input
-                style={{ width: "300px" }}
+                style={{ width: '300px' }}
                 type="email"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={e => setEmail(e.target.value)}
                 disabled={submitted}
               />
             </div>
             <button
-              className={`save-button ${submitted ? "submitted" : ""}`}
+              className={`save-button ${submitted ? 'submitted' : ''}`}
               type="submit"
               disabled={isbuttonDisabled || submitted}
               style={{
                 backgroundColor: buttonColor,
-                cursor: isbuttonDisabled ? "default" : "pointer",
+                cursor: isbuttonDisabled ? 'default' : 'pointer',
               }}
             >
               Join Now!
