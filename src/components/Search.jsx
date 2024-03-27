@@ -30,7 +30,6 @@ export default function KnowledgeSearch() {
     const filtered = topics.filter(topic =>
       topic.toLowerCase().includes(searchQuery.toLowerCase()),
     );
-    console.log('Filtered topics:', filtered);
     setFilteredTopics(filtered);
   }, [searchQuery, topics]);
 
@@ -66,18 +65,9 @@ const parseCSV = data => {
   return (
     <div className="search">
       <Paper
-        component="form"
         sx={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          display: 'flex',
-          alignItems: 'center',
-          margin: '54px',
-          width: '20%',
-          height: 42,
-          marginLeft: 20,
-          zIndex: 1,
+          width: '100%',
+          marginRight: '50px',
         }}
       >
         <InputBase
@@ -86,30 +76,14 @@ const parseCSV = data => {
             flex: 1,
             width: '100%',
             px: '10px',
-            py: '5px',
+            py: '2px',
           }}
           placeholder="Search Topics..."
           inputProps={{ 'aria-label': 'search google maps...' }}
         />
-        <IconButton type="button" sx={{ p: '10px' }} aria-label="search">
-          {/* <SearchIcon /> */}
-        </IconButton>
-        <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
-        <Select
-          value={searchQuery}
-          onChange={handleSearchChange}
-          displayEmpty
-          inputProps={{ 'aria-label': 'Without label' }}
-        >
-          <MenuItem disabled value="">
-            Topics
-          </MenuItem>
-          {filteredTopics.map(topic => (
-            <MenuItem key={topic} value={topic}>
-              {topic}
-            </MenuItem>
-          ))}
-        </Select>
+        {/* <IconButton type="button" sx={{ p: '10px' }} aria-label="search">
+          <SearchIcon />
+        </IconButton> */}
       </Paper>
     </div>
   );

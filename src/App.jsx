@@ -1,5 +1,5 @@
 import { ThemeProvider } from '@mui/material';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { createRoot } from 'react-dom/client';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import DeckGL from '@deck.gl/react';
@@ -14,6 +14,8 @@ import ZoomControls from './components/ZoomControls';
 import UserInfoModal from './components/PopUpForm';
 import { theme } from '../theme';
 import KnowledgeSearch from './components/Search';
+import TrendingTopicBtnOverlay from './components/TrendingTopicBtnOverlay';
+import Box from '@mui/material/Box';
 
 // Sample datcoa
 const DATA_URL =
@@ -23,6 +25,10 @@ const mapStyle = 'mapbox://styles/vincejim/clptmnrul00co01r53737ar8c';
 const mapboxAccessToken =
   'pk.eyJ1IjoidmluY2VqaW0iLCJhIjoiY2xvdnlzeGoyMTYzZDJxbHFjZTA2ejEzMyJ9.BSDmnQnGrI2VFa83kGl9QA';
 
+
+const MAX_ZOOM = 16;
+const MIN_ZOOM = 1.4;
+
 const INITIAL_VIEW_STATE = {
   latitude: 0.7416668866832955,
   longitude: 0,
@@ -31,6 +37,7 @@ const INITIAL_VIEW_STATE = {
   minZoom: 1.4,
   pitch: 0,
   bearing: 0,
+  transitionDuration: 1000,
 };
 
 //const colorScale = scaleLinear()
@@ -43,13 +50,38 @@ const INITIAL_VIEW_STATE = {
 //    [237, 248, 177]
 //  ]);
 
-export default function App({ data, noOverlap = true, fontSize = 32 }) {
-  const [zoom, setZoom] = useState(INITIAL_VIEW_STATE.zoom);
+const noOverlap = true;
+const fontSize = 32;
+
+export default function App() {
+  const [viewState, setViewState] = useState(INITIAL_VIEW_STATE);
+  const [data, setData] = useState(null);
+  const [zoom] = useState(INITIAL_VIEW_STATE.zoom);
   const [currentInfo, setCurrentInfo] = useState();
-  const [drawerStatus, setDrawerStatus] = useState(false);
+  const [drawerStatus, setDrawerStatus] = useState('');
   const [cursorState, setCursorState] = useState('cursor');
+  const [highlightState, setHighlightState] = useState(false);
   const [isUserInfoModalOpen, setIsUserInfoModalOpen] = useState(true);
   const [newUserInfo, setNewUserInfo] = useState(null);
+
+  const changeViewState = topic => {
+    const { longitude, latitude } = topic;
+    setViewState({
+      ...viewState,
+      longitude,
+      latitude,
+      zoom: 12,
+      transitionDuration: 1000,
+    });
+    setCurrentInfo(topic);
+    setDrawerStatus('overview');
+  };
+
+  useEffect(() => {
+    load(DATA_URL, CSVLoader).then(data => {
+      setData(data);
+    });
+  });
 
   const handleSaveUserInfo = userInfo => {
     console.log('New User Information', userInfo);
@@ -92,8 +124,10 @@ export default function App({ data, noOverlap = true, fontSize = 32 }) {
   const handleHover = info => {
     if (info.object && info.object.type === 'subtopic') {
       setCursorState('pointer');
+      setHighlightState(true);
     } else {
       setCursorState('default');
+      setHighlightState(false);
     }
   };
 
@@ -174,11 +208,16 @@ export default function App({ data, noOverlap = true, fontSize = 32 }) {
 
     interactive: true,
     pickable: true,
+    autoHighlight: highlightState,
+    highlightColor: [255, 255, 255, 80],
     onClick: info => {
       info.object.sizeScale = fontSize * 1.5;
-      console.log('Clicked on:', info.object);
-      info.object?.type === 'subtopic' && setCurrentInfo(info.object);
-      info.object?.type === 'subtopic' && setDrawerStatus('overview');
+      const { type } = info.object;
+      if (type === 'subtopic') {
+        changeViewState(info.object);
+      }
+      setCurrentInfo(info.object);
+      setDrawerStatus('overview');
     },
     onHover: info => {
       handleHover(info);
@@ -186,11 +225,46 @@ export default function App({ data, noOverlap = true, fontSize = 32 }) {
   });
 
   const handleZoomIn = () => {
-    setZoom(prevZoom => prevZoom + 1);
+    if (viewState.zoom > MIN_ZOOM) {
+      setViewState({
+        ...viewState,
+        zoom: viewState.zoom + 0.5,
+        longitude: viewState.longitude + 0.005,
+      });
+    }
   };
   const handleZoomOut = () => {
-    setZoom(prevZoom => prevZoom - 1);
+    if (viewState.zoom < MAX_ZOOM) {
+      setViewState({
+        ...viewState,
+        zoom: viewState.zoom - 0.5,
+        longitude: viewState.longitude - 0.005,
+      });
+    }
   };
+
+  const trendingTopics = [
+    {
+      text: 'Bike-Sharing Programs',
+      longitude: 1.2399802138999396,
+      latitude: 0.6515189520088266,
+    },
+    {
+      text: 'Smart Sensors Deployment',
+      longitude: 0.07449049761842429,
+      latitude: -3.909913109390505,
+    },
+    {
+      text: 'Autonomous Ride-Sharing Services',
+      longitude: 1.1668372857182283,
+      latitude: 0.9731473931772844,
+    },
+    {
+      text: 'Civic Engagement Platforms',
+      longitude: -1.856901634160792,
+      latitude: -2.2067030427223826,
+    },
+  ];
 
   return (
     <ThemeProvider theme={theme}>
@@ -202,15 +276,33 @@ export default function App({ data, noOverlap = true, fontSize = 32 }) {
         drawerStatus={drawerStatus}
         setDrawerStatus={setDrawerStatus}
       />
-      <KnowledgeSearch/>
       <ZoomControls onZoomIn={handleZoomIn} onZoomOut={handleZoomOut} />
+
+      <Box
+        sx={{
+          position: 'absolute',
+          top: '30px',
+          left: '10%',
+          zIndex: 3,
+          display: 'flex',
+        }}
+      >
+        <KnowledgeSearch />
+        <Box sx={{ml: 2}}>
+          <TrendingTopicBtnOverlay
+          topics={trendingTopics}
+          changeViewState={changeViewState}
+        />
+        </Box>
+      </Box>
+
       <DeckGL
         views={new MapView({ repeat: false })}
         layers={[textLayer]}
-        initialViewState={INITIAL_VIEW_STATE}
+        initialViewState={viewState}
         onViewStateChange={onViewStateChange}
         controller={{ touchRotate: true, dragRotate: true }}
-        getCursor={() => 'cursor'}
+        getCursor={() => cursorState}
       >
         <UserInfoModal
           isOpen={isUserInfoModalOpen}
