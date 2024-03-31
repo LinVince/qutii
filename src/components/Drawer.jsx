@@ -52,7 +52,8 @@ export default function Knowledge_Drawer(props) {
 
         {/* Knowledge Topic*/}
         <Box sx={{ paddingTop: '20px' }}>
-          <Box
+          {
+            drawerStatus === 'overview' && <Box
             sx={{
               display: 'flex',
               width: '100%',
@@ -60,23 +61,25 @@ export default function Knowledge_Drawer(props) {
           >
 
             <Autocomplete
-  disablePortal
-  freeSolo
-  id="combo-box-demo"
-  options={[]}
-  sx={{ width: '100%', mx: '20px', mt: '2px' }}
-  renderInput={(params) => <CustomSearch params={params}>
-
-    <IconButton aria-label="close-icon">
-      <CloseIcon
-        onClick={() => setDrawerStatus(false)}
-        sx={{ color: '#4B7D94'}}
-      />
-    </IconButton>
-  </CustomSearch>}
+              disablePortal
+              freeSolo
+              id="combo-box-demo"
+              options={[]}
+              sx={{ width: '100%', mx: '20px', mt: '2px' }}
+              renderInput={(params) => 
+              <CustomSearch params={params}>
+                <IconButton aria-label="close-icon">
+                  <CloseIcon
+                    onClick={() => setDrawerStatus(false)}
+                    sx={{ color: '#4B7D94'}}
+                  />
+                </IconButton>
+            </CustomSearch>
+          }
 />
             
       </Box>
+          }
         {renderDrawerContent(drawerStatus, currentInfo, StateProps)}
       </Box>
     </SwipeableDrawer>
