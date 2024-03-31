@@ -1,11 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import Paper from '@mui/material/Paper';
+import React, { useState, useEffect, ReactNode } from 'react';
+import {Paper, Box, AutocompleteRenderInputParams} from '@mui/material';
 import InputBase from '@mui/material/InputBase';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 // import SearchIcon from '@mui/icons-material/Search';
+import SearchIcon from '@mui/icons-material/Search';
+import CloseIcon from '@mui/icons-material/Close';
+import CustomSearch from './CustomSearch';
+
 
 export default function KnowledgeSearch() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -62,29 +66,5 @@ const parseCSV = data => {
 };
 
 
-  return (
-    <div className="search">
-      <Paper
-        sx={{
-          width: '100%',
-          marginRight: '50px',
-        }}
-      >
-        <InputBase
-          sx={{
-            ml: 1,
-            flex: 1,
-            width: '100%',
-            px: '10px',
-            py: '2px',
-          }}
-          placeholder="Search Topics..."
-          inputProps={{ 'aria-label': 'search google maps...' }}
-        />
-        {/* <IconButton type="button" sx={{ p: '10px' }} aria-label="search">
-          <SearchIcon />
-        </IconButton> */}
-      </Paper>
-    </div>
-  );
+  return <CustomSearch />;
 }
