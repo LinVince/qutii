@@ -19,9 +19,7 @@ export default function CustomSearch({params, children}: SearchProp) {
   return (
     <Box>
        <Paper
-      sx={{ width: "100%", height: '35px', display: 'flex', boxShadow: 'none', border: 'solid 1px #EBEAED', 'MuiIconButton-root': {
-        color: 'red'
-      } }}
+      sx={{ width: "100%", height: '35px', display: 'flex', boxShadow: 'none', border: 'solid 1px #EBEAED' }}
     >
       <InputBase
         {...params}
