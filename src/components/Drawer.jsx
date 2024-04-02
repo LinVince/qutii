@@ -1,18 +1,19 @@
-import React, { useEffect, useMemo } from 'react';
-import { useState, useCallback, useContext } from 'react';
+import React from 'react';
+import { useState } from 'react';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import '../index.css';
 import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
-import { ThemeProvider, createTheme } from '@mui/material';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import CloseIcon from '@mui/icons-material/Close';
 
-import KnowledgeSearch from './Search';
 import Overview from './Overview';
 import QuestionsAnswers from './Questions&answer';
+import { IconButton, Autocomplete } from '@mui/material';
+import CustomSearch from './CustomSearch';
+
 
 export default function Knowledge_Drawer(props) {
   const { currentInfo, drawerStatus, setDrawerStatus } = props;
@@ -36,7 +37,9 @@ export default function Knowledge_Drawer(props) {
     setValue: setValue,
   };
   return (
-    <Box sx={{ borderBottom: 1 }} borderwidth={1}>
+    <Box>
+
+      
       <SwipeableDrawer
         open={!!drawerStatus}
         onClose={() => setDrawerStatus(false)}
@@ -49,23 +52,38 @@ export default function Knowledge_Drawer(props) {
 
         {/* Knowledge Topic*/}
         <Box sx={{ paddingTop: '20px' }}>
-          <Box
+          {
+            drawerStatus === 'overview' && <Box
             sx={{
               display: 'flex',
               width: '100%',
-              justifyContent: 'end',
-              paddingBottom: '20px',
             }}
           >
-            <CloseIcon
-              onClick={() => setDrawerStatus(false)}
-              sx={{ marginRight: '35px', cursor: 'pointer', color: '#4B7D94' }}
-            />
-          </Box>
-          {renderDrawerContent(drawerStatus, currentInfo, StateProps)}
-        </Box>
-      </SwipeableDrawer>
-    </Box>
+
+            <Autocomplete
+              disablePortal
+              freeSolo
+              id="combo-box-demo"
+              options={[]}
+              sx={{ width: '100%', mx: '20px', mt: '2px' }}
+              renderInput={(params) => 
+              <CustomSearch params={params}>
+                <IconButton aria-label="close-icon">
+                  <CloseIcon
+                    onClick={() => setDrawerStatus(false)}
+                    sx={{ color: '#4B7D94'}}
+                  />
+                </IconButton>
+            </CustomSearch>
+          }
+/>
+            
+      </Box>
+          }
+        {renderDrawerContent(drawerStatus, currentInfo, StateProps)}
+      </Box>
+    </SwipeableDrawer>
+  </Box>
   );
 }
 

@@ -1,18 +1,21 @@
-import React, { useEffect } from 'react';
-import { useState, useMemo,useLayoutEffect, } from 'react';
+import { useEffect } from 'react';
+import { useState } from 'react';
 import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import SvgIcon from '@mui/material/SvgIcon';
+
 
 import Logo from "./logo.jsx"
+
 let clickStyle={
   overview:null,
   bookmark:null,
   personal:null
 };
+
 export default function Left_Bar(props) {
-  let {setDrawerStatus,drawerStatus}=props;
+  let {setDrawerStatus, drawerStatus} = props;
+
   const [forceUpdateKey, setForceUpdateKey] = useState(0);
+
   function ButtonClick(currentButton){
     if(drawerStatus===currentButton){
        let currentBackground={
@@ -24,6 +27,7 @@ export default function Left_Bar(props) {
       setDrawerStatus(false);
       return
     }
+
     if(currentButton){
       let currentBackground={
         backgroundColor: "#f0f0f0"
@@ -51,7 +55,7 @@ const setColor=(currentButton,color) =>{
 
 
 useEffect(()=>{
-  if(props.drawerStatus === "overview" && !clickStyle.overview){
+  if(drawerStatus === "overview" && !clickStyle.overview) {
     let currentBackground={
       backgroundColor: "#f0f0f0"
     };
@@ -62,11 +66,11 @@ useEffect(()=>{
     setForceUpdateKey(forceUpdateKey+1)
   }
   
-},[props.drawerStatus])
+},[drawerStatus])
 
 
   return (
-    <div className='leftbar'>
+    <div className={`leftbar ${drawerStatus ? 'sidebar-shadow' : ''}`}>
       <Toolbar >
         <Logo />
       </Toolbar>

@@ -13,7 +13,7 @@ import Leftbar from '../components/Leftbar';
 import ZoomControls from '../components/ZoomControls';
 import UserInfoModal from '../components/PopUpForm';
 import { theme } from '../../theme';
-import KnowledgeSearch from '../components/Search';
+import KnowledgeSearch from '../components/KnowledgeSearch';
 import TrendingTopicBtnOverlay from '../components/TrendingTopicBtnOverlay';
 import Box from '@mui/material/Box';
 import React from 'react';
@@ -282,7 +282,7 @@ export default function Home() {
       <Box
         sx={{
           position: 'absolute',
-          top: '30px',
+          top: '23px',
           left: '10%',
           zIndex: 3,
           display: 'flex',
