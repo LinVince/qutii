@@ -1,6 +1,5 @@
+import React, { useState, useMemo, useEffect } from 'react';
 import { ThemeProvider } from '@mui/material';
-import { useState, useEffect } from 'react';
-import { createRoot } from 'react-dom/client';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import DeckGL from '@deck.gl/react';
 import { MapView } from '@deck.gl/core';
@@ -13,10 +12,9 @@ import Leftbar from '../components/Leftbar';
 import ZoomControls from '../components/ZoomControls';
 import UserInfoModal from '../components/PopUpForm';
 import { theme } from '../../theme';
-import KnowledgeSearch from '../components/KnowledgeSearch';
 import TrendingTopicBtnOverlay from '../components/TrendingTopicBtnOverlay';
 import Box from '@mui/material/Box';
-import React from 'react';
+import CustomSearch from '../components/CustomSearch';
 
 // Sample datcoa
 const DATA_URL =
@@ -25,7 +23,6 @@ const DATA_URL =
 // const mapStyle = 'mapbox://styles/vincejim/clptmnrul00co01r53737ar8c';
 // const mapboxAccessToken =
 //   'pk.eyJ1IjoidmluY2VqaW0iLCJhIjoiY2xvdnlzeGoyMTYzZDJxbHFjZTA2ejEzMyJ9.BSDmnQnGrI2VFa83kGl9QA';
-
 
 const MAX_ZOOM = 16;
 const MIN_ZOOM = 1.4;
@@ -56,14 +53,13 @@ const fontSize = 32;
 
 export default function Home() {
   const [viewState, setViewState] = useState(INITIAL_VIEW_STATE);
+  const zoom = useMemo(() => INITIAL_VIEW_STATE.zoom, []);
   const [data, setData] = useState(null);
-  const [zoom] = useState(INITIAL_VIEW_STATE.zoom);
   const [currentInfo, setCurrentInfo] = useState();
   const [drawerStatus, setDrawerStatus] = useState('');
   const [cursorState, setCursorState] = useState('cursor');
   const [highlightState, setHighlightState] = useState(false);
   const [isUserInfoModalOpen, setIsUserInfoModalOpen] = useState(true);
-  const [newUserInfo, setNewUserInfo] = useState(null);
 
   const changeViewState = topic => {
     const { longitude, latitude } = topic;
@@ -82,20 +78,15 @@ export default function Home() {
     load(DATA_URL, CSVLoader).then(data => {
       setData(data);
     });
-  });
+  }, []);
 
   const handleSaveUserInfo = userInfo => {
     console.log('New User Information', userInfo);
-    setNewUserInfo(userInfo);
   };
 
   const handleUserInfoModalClose = () => {
     setIsUserInfoModalOpen(false);
   };
-
-  //const onViewStateChange = useCallback(({viewState}) => {
-  //  setZoom(viewState.zoom);
-  //}, []);
 
   const onViewStateChange = ({ viewState }) => {
     // Define boundaries (latitude and longitude bounds)
@@ -246,7 +237,7 @@ export default function Home() {
 
   const trendingTopics = [
     {
-      text: 'Bike-Sharing Programs',
+      text: 'Bike-sharing Programs',
       longitude: 1.2399802138999396,
       latitude: 0.6515189520088266,
     },
@@ -288,12 +279,14 @@ export default function Home() {
           display: 'flex',
         }}
       >
-        <KnowledgeSearch />
-        <Box sx={{ml: 2}}>
+        <Box onClick={() => setDrawerStatus('overview')}>
+          <CustomSearch />
+        </Box>
+        <Box sx={{ ml: 2 }}>
           <TrendingTopicBtnOverlay
-          topics={trendingTopics}
-          changeViewState={changeViewState}
-        />
+            topics={trendingTopics}
+            changeViewState={changeViewState}
+          />
         </Box>
       </Box>
 

@@ -86,7 +86,7 @@ button:focus-visible {
 .MuiDrawer-paper {
   left: 86px !important;
   /* padding: 14px !important; */
-  width: 350px;
+  width: 450px;
 }
 
 .popDrawer {
@@ -282,6 +282,16 @@ label {
 .LeftbarIcon {
   cursor: pointer;
   padding: 10px 10px 6px;
+}
+
+.active-leftbar-icon::after {
+  content: "";
+  position: absolute;
+  left: 97%;
+  height: 70%;
+  width: 2px;
+  border-radius: 5px;
+  background-color: #034459;
 }
 
 .defaultValue {

@@ -1,20 +1,15 @@
-import React, { useState, useEffect, ReactNode } from 'react';
-import {Paper, Box, AutocompleteRenderInputParams} from '@mui/material';
-import InputBase from '@mui/material/InputBase';
-import Divider from '@mui/material/Divider';
+import React, { ReactNode } from 'react';
+import {Paper, Box} from '@mui/material';
+import InputBase, { InputBaseProps } from '@mui/material/InputBase';
 import IconButton from '@mui/material/IconButton';
-import MenuItem from '@mui/material/MenuItem';
-import Select from '@mui/material/Select';
-// import SearchIcon from '@mui/icons-material/Search';
 import SearchIcon from '@mui/icons-material/Search';
-import CloseIcon from '@mui/icons-material/Close';
 
 type SearchProp = {
-  params?: AutocompleteRenderInputParams;
+  params?: InputBaseProps;
   children?: ReactNode
 }
 
-export default function CustomSearch({params, children}: SearchProp) {
+export default function CustomSearch({params, children}: Readonly<SearchProp>) {
 
   return (
     <Box>

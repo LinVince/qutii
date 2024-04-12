@@ -1,5 +1,4 @@
-import React from 'react';
-import { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import '../index.css';
 import PropTypes from 'prop-types';
@@ -14,14 +13,14 @@ import QuestionsAnswers from './Questions&answer';
 import { IconButton, Autocomplete } from '@mui/material';
 import CustomSearch from './CustomSearch';
 
-
-export default function Knowledge_Drawer(props) {
-  const { currentInfo, drawerStatus, setDrawerStatus } = props;
-
-  const [state, setDrawerOpen] = React.useState(false);
-  const toggleDrawer = open => {
-    setDrawerOpen(open);
-  };
+type DrawerType = {
+  currentInfo: any, 
+  drawerStatus: string, 
+  setDrawerStatus: (value: string) => void
+}
+export default function Knowledge_Drawer({ currentInfo, drawerStatus, setDrawerStatus } : Readonly<DrawerType>) {
+  
+  const autoFocus = useMemo(() => !currentInfo, [])
 
   // Controls the opening and closing of the drawer via the currentInfo passed by the parent component.
   // useEffect(() => {
@@ -38,52 +37,44 @@ export default function Knowledge_Drawer(props) {
   };
   return (
     <Box>
-
-      
       <SwipeableDrawer
         open={!!drawerStatus}
-        onClose={() => setDrawerStatus(false)}
-        onOpen={() => toggleDrawer(true)}
-        defaultValue={false}
+        onClose={() => setDrawerStatus('')}
+        onOpen={() => null}
+        defaultValue={''}
       >
-        {/* Search */}
-        {/* TODO Decide on where to place the search input */}
-        <Box sx={{ paddingX: '10px' }}>{/* <KnowledgeSearch /> */}</Box>
-
         {/* Knowledge Topic*/}
         <Box sx={{ paddingTop: '20px' }}>
-          {
-            drawerStatus === 'overview' && <Box
-            sx={{
-              display: 'flex',
-              width: '100%',
-            }}
-          >
-
-            <Autocomplete
-              disablePortal
-              freeSolo
-              id="combo-box-demo"
-              options={[]}
-              sx={{ width: '100%', mx: '20px', mt: '2px' }}
-              renderInput={(params) => 
-              <CustomSearch params={params}>
-                <IconButton aria-label="close-icon">
-                  <CloseIcon
-                    onClick={() => setDrawerStatus(false)}
-                    sx={{ color: '#4B7D94'}}
-                  />
-                </IconButton>
-            </CustomSearch>
-          }
-/>
-            
-      </Box>
-          }
-        {renderDrawerContent(drawerStatus, currentInfo, StateProps)}
-      </Box>
-    </SwipeableDrawer>
-  </Box>
+          {drawerStatus === 'overview' && (
+            <Box
+              sx={{
+                display: 'flex',
+                width: '100%',
+              }}
+            >
+              <Autocomplete
+                disablePortal
+                freeSolo
+                id="combo-box-demo"
+                options={[]}
+                sx={{ width: '100%', mx: '20px', mt: '2px' }}
+                renderInput={params => (
+                  <CustomSearch params={{autoFocus, ...params}}>
+                    <IconButton aria-label="close-icon">
+                      <CloseIcon
+                        onClick={() => setDrawerStatus('')}
+                        sx={{ color: '#4B7D94' }}
+                      />
+                    </IconButton>
+                  </CustomSearch>
+                )}
+              />
+            </Box>
+          )}
+          {renderDrawerContent(drawerStatus, currentInfo, StateProps)}
+        </Box>
+      </SwipeableDrawer>
+    </Box>
   );
 }
 
@@ -95,7 +86,7 @@ function renderDrawerContent(drawerStatus, currentInfo, props) {
           return renderOverview(currentInfo, props);
         } else {
           return (
-            <Box sx={{ paddingX: '10px' }}>
+            <Box sx={{ p: '20px' }}>
               Welcome to QuTii Knowledge Map. Navigate the map and click on the
               topic you are interested in and relevant information will be
               displayed here.
@@ -142,8 +133,9 @@ function a11yProps(index) {
   };
 }
 
-const renderOverview = (currentInfo, props = {}) => {
+const renderOverview = (currentInfo, props) => {
   let { value, setValue } = props;
+
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -179,7 +171,7 @@ const renderOverview = (currentInfo, props = {}) => {
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
-        <QuestionsAnswers />
+        <QuestionsAnswers subtopic={text} />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
         <Overview />
