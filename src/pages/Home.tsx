@@ -71,7 +71,7 @@ export default function Home() {
       transitionDuration: 1000,
     });
     setCurrentInfo(topic);
-    setDrawerStatus('overview');
+    //setDrawerStatus('overview');
   };
 
   useEffect(() => {
@@ -207,9 +207,9 @@ export default function Home() {
       const { type } = info.object;
       if (type === 'subtopic') {
         changeViewState(info.object);
+        setCurrentInfo(info.object);
+        setDrawerStatus('overview');
       }
-      setCurrentInfo(info.object);
-      setDrawerStatus('overview');
     },
     onHover: info => {
       handleHover(info);
