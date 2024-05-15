@@ -2,6 +2,7 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { ThemeProvider } from '@mui/material';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import DeckGL from '@deck.gl/react';
+import { Map } from 'react-map-gl';
 import { MapView } from '@deck.gl/core';
 import { TextLayer } from '@deck.gl/layers';
 import { CollisionFilterExtension } from '@deck.gl/extensions';
@@ -20,9 +21,9 @@ import CustomSearch from '../components/CustomSearch';
 const DATA_URL =
   'https://raw.githubusercontent.com/LinVince/knowledge_map/main/final_data%20II.csv';
 
-// const mapStyle = 'mapbox://styles/vincejim/clptmnrul00co01r53737ar8c';
-// const mapboxAccessToken =
-//   'pk.eyJ1IjoidmluY2VqaW0iLCJhIjoiY2xvdnlzeGoyMTYzZDJxbHFjZTA2ejEzMyJ9.BSDmnQnGrI2VFa83kGl9QA';
+const mapStyle = 'mapbox://styles/vincejim/clptmnrul00co01r53737ar8c';
+const mapboxAccessToken =
+  'pk.eyJ1IjoidmluY2VqaW0iLCJhIjoiY2xvdnlzeGoyMTYzZDJxbHFjZTA2ejEzMyJ9.BSDmnQnGrI2VFa83kGl9QA';
 
 const MAX_ZOOM = 16;
 const MIN_ZOOM = 1.4;
@@ -298,6 +299,11 @@ export default function Home() {
         controller={{ touchRotate: true, dragRotate: true }}
         getCursor={() => cursorState}
       >
+        <Map
+          mapboxAccessToken={mapboxAccessToken}
+          mapStyle={mapStyle}
+          initialViewState={viewState}
+        />
         <UserInfoModal
           isOpen={isUserInfoModalOpen}
           onRequestClose={handleUserInfoModalClose}
