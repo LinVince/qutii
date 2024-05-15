@@ -304,11 +304,6 @@ export default function Home() {
           mapStyle={mapStyle}
           initialViewState={viewState}
         />
-        <UserInfoModal
-          isOpen={isUserInfoModalOpen}
-          onRequestClose={handleUserInfoModalClose}
-          onSave={handleSaveUserInfo}
-        />
       </DeckGL>
     </ThemeProvider>
   );
