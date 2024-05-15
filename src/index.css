@@ -1,8 +1,7 @@
 @import url('https://fonts.cdnfonts.com/css/raleway-5');
 
 :root {
-  font-family: 'Raleway', sans-serif, system-ui, Avenir, Helvetica, Arial,
-    sans-serif;
+  font-family: 'Raleway', 'Arial Black', 'Impact', 'Roboto', sans-serif !important; /* Raleway as primary font, followed by thicker font options */
   line-height: 1.5;
   font-weight: 400;
 
@@ -14,6 +13,10 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.MuiTypography-root {
+  font-family: 'Raleway', 'Arial Black', 'Impact', 'Roboto', sans-serif !important; /* 
 }
 
 a {
@@ -81,6 +84,8 @@ button:focus-visible {
   z-index: auto !important;
   padding: 14px !important;
   margin-left: 10px;
+  font-family: 'Raleway', 'Arial Black', 'Impact', 'Roboto', sans-serif; /* Raleway as primary font, followed by thicker font options */
+ 
 }
 
 .MuiDrawer-paper {
@@ -179,11 +184,13 @@ form {
   display: flex;
   flex-direction: column;
   margin-left: 50px;
-  font-family: 'Raleway', sans-serif;
+  font-family: 'Raleway', 'Arial Black', 'Impact', 'Roboto', sans-serif; /* Raleway as primary font, followed by thicker font options */
+ 
 }
 
 .raleway-font {
-  font-family: "Raleway", sans-serif;
+  font-family: 'Raleway', 'Arial Black', 'Impact', 'Roboto', sans-serif; /* Raleway as primary font, followed by thicker font options */
+ 
 }
 
 .form-group {
@@ -199,7 +206,8 @@ input {
   transition: border-bottom 1s ease; /* Smooth transition for underline */
   color: black;
   font-size: large;
-  font-family: 'Raleway', sans-serif;
+  font-family: 'Raleway', 'Arial Black', 'Impact', 'Roboto', sans-serif; /* Raleway as primary font, followed by thicker font options */
+ 
 }
 input:hover {
   border-bottom: 1px solid blue;
@@ -249,7 +257,7 @@ label {
   font-size: 15px;
   margin-right: 400px;
   margin-left: 50px;
-  font-family: 'Raleway', sans-serif;
+  font-family: 'Raleway', 'Arial Black', 'Impact', 'Roboto', sans-serif; /* Raleway as primary font, followed by thicker font options */
   color: black;
   font-weight: 400;
 }
@@ -263,7 +271,8 @@ label {
   color: black;
   margin-top: 20px;
   margin-left: 50px;
-  font-family: 'Raleway', sans-serif;
+  font-family: 'Raleway', 'Arial Black', 'Impact', 'Roboto', sans-serif; /* Raleway as primary font, followed by thicker font options */
+ 
   margin-right: 400px;
 }
 .donate-button {
