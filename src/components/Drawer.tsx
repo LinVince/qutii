@@ -6,69 +6,70 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-
 import Overview from './Overview';
 import QuestionsAnswers from './Questions&answer';
 import { Autocomplete, TextField } from '@mui/material';
 
-
 type DrawerType = {
-  currentInfo: any, 
-  drawerStatus: string, 
-  setDrawerStatus: (value: string) => void
-}
+  currentInfo: any;
+  drawerStatus: string;
+  setDrawerStatus: (value: string) => void;
+};
 
-type searchData  = {
+type searchData = {
   name: string;
-  [key: string]: string | number | any
-}
+  [key: string]: string | number | any;
+};
 
-export default function KnowledgeDrawer({ currentInfo, drawerStatus, setDrawerStatus } : Readonly<DrawerType>) {
+export default function KnowledgeDrawer({
+  currentInfo,
+  drawerStatus,
+  setDrawerStatus,
+}: Readonly<DrawerType>) {
   const [value, setValue] = useState(0);
-  const [searchList, setSearchList] = useState<searchData[]>([])
-  const [searchInput, setSearchInput] = useState(searchList[0])
-  const [topicInfo, setTopicInfo] = useState(currentInfo)
+  const [searchList, setSearchList] = useState<searchData[]>([]);
+  const [searchInput, setSearchInput] = useState(searchList[0]);
+  const [topicInfo, setTopicInfo] = useState(currentInfo);
 
   const requestOptions = {
-    method: "GET",
+    method: 'GET',
   };
 
   let timer: NodeJS.Timeout;
 
-  const search = async (event) => {
+  const search = async event => {
     clearTimeout(timer);
-    const searchValue = event.target.value
+    const searchValue = event.target.value;
 
     // call the api with the query
-    const url = `http://graphviz-network-lb-ff6880c917e535f1.elb.eu-west-2.amazonaws.com:8080/search/subtopic?q=${searchValue}`
-    
-    
+    const url = `http://graphviz-network-lb-ff6880c917e535f1.elb.eu-west-2.amazonaws.com:8080/search/subtopic?q=${searchValue}`;
+
     // setTimeout to debounce the api call
     timer = setTimeout(() => {
-     fetch(url, requestOptions)
-      .then((response) => response.json())
-      .then((result) => {
-        const { data } = result;
-        setSearchList(data);
-      })
-      .catch((error) => console.error(error));
-    }, 500)
-  }
+      fetch(url, requestOptions)
+        .then(response => response.json())
+        .then(result => {
+          const { data } = result;
+          setSearchList(data);
+        })
+        .catch(error => console.error(error));
+    }, 500);
+  };
 
   useEffect(() => {
     setTopicInfo(currentInfo);
     // clear the search box
-    setSearchList([])
-    setSearchInput([] as any)
-  }, [currentInfo])
+    setSearchList([]);
+    setSearchInput([] as any);
+  }, [currentInfo]);
 
-  const updateSearch = (value) => {
-    setTopicInfo({...value, text: value.name})
-  }
+  const updateSearch = value => {
+    setTopicInfo({ ...value, text: value.name });
+  };
 
-  const getOption = (option) => {
-    return option.name || ''
-  }
+  const getOption = option => {
+    return option.name || '';
+  };
 
   let StateProps = {
     value: value,
@@ -99,7 +100,7 @@ export default function KnowledgeDrawer({ currentInfo, drawerStatus, setDrawerSt
                 options={searchList}
                 value={searchInput}
                 onChange={(e, value) => updateSearch(value)}
-                getOptionLabel={(option) => getOption(option)}
+                getOptionLabel={option => getOption(option)}
                 sx={{ width: '100%', mx: '20px', mt: '2px' }}
                 renderInput={params => (
                   <TextField {...params} onChange={search} label="Subtopic" />

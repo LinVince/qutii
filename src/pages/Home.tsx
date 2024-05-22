@@ -3,9 +3,7 @@ import { IconButton } from '@mui/material';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import DeckGL from '@deck.gl/react';
 import { MapView } from '@deck.gl/core';
-import { TextLayer } from '@deck.gl/layers';
-import { CollisionFilterExtension } from '@deck.gl/extensions';
-import { Map } from 'react-map-gl';
+import { Map, AttributionControl } from 'react-map-gl';
 import ZoomControls from '../components/ZoomControls';
 import UserInfoModal from '../components/PopUpForm';
 import TrendingTopicBtnOverlay from '../components/TrendingTopicBtnOverlay';
@@ -15,40 +13,12 @@ import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import MenuIcon from '@mui/icons-material/Menu';
 import Sidebar from '../components/Sidebar';
-import nodes from '../data/nodes';
 import textLayerColorScheme from '../data/textLayerColorScheme';
-import colorConvert from '../services/colorConvert';
+import HandleTextLayer from '../components/TextLayer';
+import token from '../data/token';
+import useHomeStatusStore from '../store';
 
-const mapStyle = 'mapbox://styles/vincejim/clptmnrul00co01r53737ar8c';
-const mapboxAccessToken =
-  'pk.eyJ1IjoidmluY2VqaW0iLCJhIjoiY2xvdnlzeGoyMTYzZDJxbHFjZTA2ejEzMyJ9.BSDmnQnGrI2VFa83kGl9QA';
-
-const MAX_ZOOM = 16;
-const MIN_ZOOM = 5;
-
-const INITIAL_VIEW_STATE = {
-  latitude: 0.7416668866832955,
-  longitude: 0,
-  zoom: 8.0,
-  maxZoom: MAX_ZOOM,
-  minZoom: MIN_ZOOM,
-  pitch: 0,
-  bearing: 0,
-  transitionDuration: 1000,
-};
-
-//const colorScale = scaleLinear()
-// .domain([3, 4, 5, 6, 7])
-// .range([
-//    [29, 145, 192],
-//    [65, 182, 196],
-//    [127, 205, 187],
-//    [199, 233, 180],
-//    [237, 248, 177]
-//  ]);
-
-const noOverlap = true;
-const fontSize = 32;
+const { mapStyle, mapboxAccessToken } = token;
 
 export default function Home() {
   return (
@@ -74,12 +44,25 @@ export function HomeContent({
   setDrawerStatus,
   setCurrentInfo,
 }) {
-  const [viewState, setViewState] = useState(INITIAL_VIEW_STATE);
-  const zoom = useMemo(() => INITIAL_VIEW_STATE.zoom, []);
-  const [data, setData] = useState(null);
-  const [cursorState, setCursorState] = useState('cursor');
-  const [highlightState, setHighlightState] = useState(false);
-  const [isUserInfoModalOpen, setIsUserInfoModalOpen] = useState(true);
+  const {
+    homeStatus: {
+      viewState,
+      cursorState,
+      highlightState,
+      zoom,
+      isUserInfoModalOpen,
+    },
+    setViewState,
+    setCursorState,
+    setHighlightState,
+    setIsUserInfoModalOpen,
+  } = useHomeStatusStore(state => ({
+    homeStatus: state.homeStatus,
+    setViewState: state.setViewState,
+    setCursorState: state.setCursorState,
+    setHighlightState: state.setHighlightState,
+    setIsUserInfoModalOpen: state.setIsUserInfoModalOpen,
+  }));
 
   const changeViewState = topic => {
     const { longitude, latitude } = topic;
@@ -87,21 +70,13 @@ export function HomeContent({
       ...viewState,
       longitude,
       latitude,
-      zoom: 12,
+      zoom: 16,
       transitionDuration: 1000,
     });
     setCurrentInfo(topic);
     setShowLeftbar(true);
     setDrawerStatus('overview');
   };
-
-  /* 
-  useEffect(() => {
-    load(DATA_URL, CSVLoader).then(data => {
-      setData(data);
-    });
-  }, []);
-  */
 
   const handleSaveUserInfo = userInfo => {
     console.log('New User Information', userInfo);
@@ -129,11 +104,11 @@ export function HomeContent({
     );
 
     // Return updated view state
-    return {
+    setViewState({
       ...viewState,
       latitude: newLatitude,
       longitude: newLongitude,
-    };
+    });
   };
 
   const handleHover = info => {
@@ -145,10 +120,6 @@ export function HomeContent({
       setHighlightState(false);
     }
   };
-
-  const scale = 2 ** zoom;
-  const sizeMaxPixels = (scale / 3) * fontSize;
-  const sizeMinPixels = Math.min(scale / 1000, 0.5) * fontSize;
 
   const checkFontSize = type => {
     switch (type) {
@@ -169,59 +140,19 @@ export function HomeContent({
     }
   };
 
-  const textLayer = new TextLayer({
-    id: 'knowledge_map',
-    data: nodes,
-    characterSet: 'auto',
-    fontSettings: {
-      buffer: 8,
-    },
-    fontFamily: 'Gill Sans Extrabold, sans-serif',
-    fontWeight: 'bold',
-
-    // TextLayer options
-    getText: d => d.text,
-    getPosition: d => [d.longitude, d.latitude],
-    getColor: d => checkTopicColor(d),
-    getSize: d => checkFontSize(d.type), //d.relevance/100,
-
-    //sizeScale: fontSize,
-    sizeMaxPixels,
-    sizeMinPixels,
-    maxWidth: 64 * 12,
-
-    // CollideExtension options
-    collisionEnabled: noOverlap,
-    getCollisionPriority: d => d.relevance,
-    collisionTestProps: {
-      sizeScale: 1,
-      sizeMaxPixels: sizeMaxPixels * 10,
-      sizeMinPixels: sizeMinPixels * 10,
-    },
-    extensions: [new CollisionFilterExtension()],
-
-    // Interaction
-
-    interactive: true,
-    pickable: true,
-    autoHighlight: highlightState,
-    highlightColor: [255, 255, 255, 80],
-    onClick: info => {
-      info.object.sizeScale = fontSize * 1.5;
-      const { type } = info.object;
-      if (type === 'subtopic') {
-        changeViewState(info.object);
-        setCurrentInfo(info.object);
-        setDrawerStatus('overview');
-      }
-    },
-    onHover: info => {
-      handleHover(info);
-    },
-  });
+  const textLayer = HandleTextLayer(
+    checkTopicColor,
+    checkFontSize,
+    zoom,
+    highlightState,
+    changeViewState,
+    setCurrentInfo,
+    setDrawerStatus,
+    handleHover,
+  );
 
   const handleZoomIn = () => {
-    if (viewState.zoom > MIN_ZOOM) {
+    if (viewState.zoom > viewState.minZoom) {
       setViewState({
         ...viewState,
         zoom: viewState.zoom + 0.5,
@@ -230,7 +161,7 @@ export function HomeContent({
     }
   };
   const handleZoomOut = () => {
-    if (viewState.zoom < MAX_ZOOM) {
+    if (viewState.zoom < viewState.maxZoom) {
       setViewState({
         ...viewState,
         zoom: viewState.zoom - 0.5,
@@ -331,16 +262,13 @@ export function HomeContent({
         controller={{ touchRotate: true, dragRotate: true }}
         getCursor={() => cursorState}
       >
-        <UserInfoModal
-          isOpen={isUserInfoModalOpen}
-          onRequestClose={handleUserInfoModalClose}
-          onSave={handleSaveUserInfo}
-        />
         <Map
           mapboxAccessToken={mapboxAccessToken}
           mapStyle={mapStyle}
           initialViewState={viewState}
-        />
+        >
+          <AttributionControl customAttribution="" />
+        </Map>
       </DeckGL>
     </Box>
   );
