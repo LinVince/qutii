@@ -23,7 +23,7 @@ export default function SignUp() {
           width: "50%"
         }} />
       </Hidden>
-      <Box style={{display: 'flex', justifyContent: 'center', alignItems: 'center', width: 'auto', margin: 'auto', height: "100vh"}}>
+      <Box style={{display: 'flex', justifyContent: 'center', alignItems: 'center', width: 'auto', margin: 'auto', height: "100vh", padding: 10}}>
         <Box style={{justifyContent: 'center', width: '100%'}}>
           <Box style={{display: 'flex', alignItems: 'center'}}>
             <img width="20px" src='logo.png' alt='qutii-icon-logo' />

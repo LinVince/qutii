@@ -1,32 +1,30 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { ThemeProvider } from '@mui/material';
+import { IconButton } from '@mui/material';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import DeckGL from '@deck.gl/react';
-import { Map } from 'react-map-gl';
 import { MapView } from '@deck.gl/core';
 import { TextLayer } from '@deck.gl/layers';
 import { CollisionFilterExtension } from '@deck.gl/extensions';
-import { CSVLoader } from '@loaders.gl/csv';
-import { load } from '@loaders.gl/core';
-import Drawer from '../components/Drawer';
-import Leftbar from '../components/Leftbar';
+import { Map } from 'react-map-gl';
 import ZoomControls from '../components/ZoomControls';
 import UserInfoModal from '../components/PopUpForm';
-import { theme } from '../../theme';
 import TrendingTopicBtnOverlay from '../components/TrendingTopicBtnOverlay';
 import Box from '@mui/material/Box';
 import CustomSearch from '../components/CustomSearch';
-
-// Sample datcoa
-const DATA_URL =
-  'https://raw.githubusercontent.com/LinVince/knowledge_map/main/final_data%20II.csv';
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import MenuIcon from '@mui/icons-material/Menu';
+import Sidebar from '../components/Sidebar';
+import nodes from '../data/nodes';
+import textLayerColorScheme from '../data/textLayerColorScheme';
+import colorConvert from '../services/colorConvert';
 
 const mapStyle = 'mapbox://styles/vincejim/clptmnrul00co01r53737ar8c';
 const mapboxAccessToken =
   'pk.eyJ1IjoidmluY2VqaW0iLCJhIjoiY2xvdnlzeGoyMTYzZDJxbHFjZTA2ejEzMyJ9.BSDmnQnGrI2VFa83kGl9QA';
 
 const MAX_ZOOM = 16;
-const MIN_ZOOM = 1.4;
+const MIN_ZOOM = 5;
 
 const INITIAL_VIEW_STATE = {
   latitude: 0.7416668866832955,
@@ -53,11 +51,32 @@ const noOverlap = true;
 const fontSize = 32;
 
 export default function Home() {
+  return (
+    <Sidebar>
+      {/* the undefined is to prevent typescript error. The actual value will be populated by the sidebar wrapper */}
+      <HomeContent
+        showLeftbar={undefined}
+        showMobileLeftbar={undefined}
+        setShowLeftbar={undefined}
+        setShowMobileLeftbar={undefined}
+        setDrawerStatus={undefined}
+        setCurrentInfo={undefined}
+      />
+    </Sidebar>
+  );
+}
+
+export function HomeContent({
+  showLeftbar,
+  showMobileLeftbar,
+  setShowLeftbar,
+  setShowMobileLeftbar,
+  setDrawerStatus,
+  setCurrentInfo,
+}) {
   const [viewState, setViewState] = useState(INITIAL_VIEW_STATE);
   const zoom = useMemo(() => INITIAL_VIEW_STATE.zoom, []);
   const [data, setData] = useState(null);
-  const [currentInfo, setCurrentInfo] = useState();
-  const [drawerStatus, setDrawerStatus] = useState('');
   const [cursorState, setCursorState] = useState('cursor');
   const [highlightState, setHighlightState] = useState(false);
   const [isUserInfoModalOpen, setIsUserInfoModalOpen] = useState(true);
@@ -72,14 +91,17 @@ export default function Home() {
       transitionDuration: 1000,
     });
     setCurrentInfo(topic);
-    //setDrawerStatus('overview');
+    setShowLeftbar(true);
+    setDrawerStatus('overview');
   };
 
+  /* 
   useEffect(() => {
     load(DATA_URL, CSVLoader).then(data => {
       setData(data);
     });
   }, []);
+  */
 
   const handleSaveUserInfo = userInfo => {
     console.log('New User Information', userInfo);
@@ -128,41 +150,28 @@ export default function Home() {
   const sizeMaxPixels = (scale / 3) * fontSize;
   const sizeMinPixels = Math.min(scale / 1000, 0.5) * fontSize;
 
-  const checkTopicColor = (type, text, ancestor = '', parent = '') => {
-    switch (type) {
-      case 'macrotopic':
-        if (text === 'smart city') {
-          return [31, 131, 105, 255];
-        }
-        break;
-      case 'topic':
-        if (parent === 'smart city') {
-          return [64, 161, 137, 255];
-        }
-        break;
-      case 'subtopic':
-        if (ancestor === 'smart city') {
-          return [160, 233, 214, 255];
-        }
-        break;
-      default:
-        return [31, 131, 105]; // Default color
-    }
-  };
-
   const checkFontSize = type => {
     switch (type) {
       case 'macrotopic':
-        return 64;
+        return 70;
       case 'topic':
         return 24;
       case 'subtopic':
         return 20;
     }
   };
+
+  const checkTopicColor = node => {
+    if (node.type === 'macrotopic') {
+      return textLayerColorScheme[node.text][node.type];
+    } else {
+      return textLayerColorScheme[node.macrotopic][node.type];
+    }
+  };
+
   const textLayer = new TextLayer({
     id: 'knowledge_map',
-    data,
+    data: nodes,
     characterSet: 'auto',
     fontSettings: {
       buffer: 8,
@@ -173,13 +182,7 @@ export default function Home() {
     // TextLayer options
     getText: d => d.text,
     getPosition: d => [d.longitude, d.latitude],
-    getColor: d =>
-      checkTopicColor(
-        d.type?.toLowerCase(),
-        d.text?.toLowerCase(),
-        d.ancestor?.toLowerCase(),
-        d.parent?.toLowerCase(),
-      ),
+    getColor: d => checkTopicColor(d),
     getSize: d => checkFontSize(d.type), //d.relevance/100,
 
     //sizeScale: fontSize,
@@ -191,7 +194,7 @@ export default function Home() {
     collisionEnabled: noOverlap,
     getCollisionPriority: d => d.relevance,
     collisionTestProps: {
-      sizeScale: 2.2,
+      sizeScale: 1,
       sizeMaxPixels: sizeMaxPixels * 10,
       sizeMinPixels: sizeMinPixels * 10,
     },
@@ -239,18 +242,18 @@ export default function Home() {
   const trendingTopics = [
     {
       text: 'Bike-sharing Programs',
-      longitude: 1.2399802138999396,
-      latitude: 0.6515189520088266,
+      longitude: 12.804664164345917,
+      latitude: 0.8099143979404076,
     },
     {
       text: 'Smart Sensors Deployment',
-      longitude: 0.07449049761842429,
-      latitude: -3.909913109390505,
+      longitude: 7.71916201496219,
+      latitude: -0.5790708188243794,
     },
     {
       text: 'Autonomous Ride-Sharing Services',
-      longitude: 1.1668372857182283,
-      latitude: 0.9731473931772844,
+      longitude: 9.650054037881015,
+      latitude: -0.3644473979849971,
     },
     {
       text: 'Civic Engagement Platforms',
@@ -259,37 +262,66 @@ export default function Home() {
     },
   ];
 
+  const theme = useTheme();
+  const isMediumScreenUp = useMediaQuery(theme.breakpoints.up('md'));
+
   return (
-    <ThemeProvider theme={theme}>
-      <Leftbar setDrawerStatus={setDrawerStatus} drawerStatus={drawerStatus} />
-
-      {/* vision2 hidden */}
-      <Drawer
-        currentInfo={currentInfo}
-        drawerStatus={drawerStatus}
-        setDrawerStatus={setDrawerStatus}
-      />
-      <ZoomControls onZoomIn={handleZoomIn} onZoomOut={handleZoomOut} />
-
+    <Box className="container">
       <Box
         sx={{
-          position: 'absolute',
+          position: 'relative',
           top: '23px',
-          left: '10%',
+          left: showLeftbar ? 100 : 10,
           zIndex: 3,
-          display: 'flex',
+          display: isMediumScreenUp ? 'flex' : '',
+          pr: '20px',
+          overflow: 'hidden',
         }}
       >
-        <Box onClick={() => setDrawerStatus('overview')}>
-          <CustomSearch />
+        <Box
+          sx={{ minWidth: 300 }}
+          onClick={() => {
+            setShowLeftbar(true);
+            setDrawerStatus('overview');
+          }}
+        >
+          <CustomSearch params={{ autoFocus: false }} position="before">
+            {isMediumScreenUp ? (
+              ''
+            ) : (
+              <IconButton
+                onClick={e => {
+                  e.stopPropagation();
+                  setShowMobileLeftbar(!showMobileLeftbar);
+                }}
+                type="button"
+                aria-label="search"
+              >
+                <MenuIcon sx={{ color: '#4B7D94' }} />
+              </IconButton>
+            )}
+          </CustomSearch>
         </Box>
-        <Box sx={{ ml: 2 }}>
+
+        <Box
+          className="subtopic-container"
+          sx={{
+            ml: isMediumScreenUp ? 2 : 0,
+            mt: isMediumScreenUp ? 0 : 2,
+            overflow: 'scroll',
+            position: 'relative',
+          }}
+        >
           <TrendingTopicBtnOverlay
             topics={trendingTopics}
             changeViewState={changeViewState}
           />
         </Box>
       </Box>
+
+      {/* vision2 hidden */}
+
+      <ZoomControls onZoomIn={handleZoomIn} onZoomOut={handleZoomOut} />
 
       <DeckGL
         views={new MapView({ repeat: false })}
@@ -299,12 +331,17 @@ export default function Home() {
         controller={{ touchRotate: true, dragRotate: true }}
         getCursor={() => cursorState}
       >
+        <UserInfoModal
+          isOpen={isUserInfoModalOpen}
+          onRequestClose={handleUserInfoModalClose}
+          onSave={handleSaveUserInfo}
+        />
         <Map
           mapboxAccessToken={mapboxAccessToken}
           mapStyle={mapStyle}
           initialViewState={viewState}
         />
       </DeckGL>
-    </ThemeProvider>
+    </Box>
   );
 }

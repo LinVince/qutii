@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Divider, Hidden } from '@mui/material'
+import { Box, Divider, Hidden, Typography } from '@mui/material'
 import { useNavigate } from 'react-router-dom';
 
 export default function VerifyIdentity() {
@@ -56,7 +56,7 @@ export default function VerifyIdentity() {
               <img src='icon/message.svg' alt='' />
               <Box sx={{display: 'flex', flexDirection: 'column', ml: 2}}>
                 <span>Text code to number in -27</span>
-                <span style={{width: '50%', fontSize: '14px', marginTop: '10px'}}>Our text are free, but some service providers may apply usage charges in certain cases.</span>
+                <Typography sx={{width: {sm:'50%'}, fontSize: '14px', marginTop: '10px'}}>Our text are free, but some service providers may apply usage charges in certain cases.</Typography>
               </Box>
             </Box>
             <Box>

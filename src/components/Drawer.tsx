@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import '../index.css';
 import PropTypes from 'prop-types';
@@ -6,35 +6,75 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import CloseIcon from '@mui/icons-material/Close';
 
 import Overview from './Overview';
 import QuestionsAnswers from './Questions&answer';
-import { IconButton, Autocomplete } from '@mui/material';
-import CustomSearch from './CustomSearch';
+import { Autocomplete, TextField } from '@mui/material';
+
 
 type DrawerType = {
   currentInfo: any, 
   drawerStatus: string, 
   setDrawerStatus: (value: string) => void
 }
-export default function Knowledge_Drawer({ currentInfo, drawerStatus, setDrawerStatus } : Readonly<DrawerType>) {
-  
-  const autoFocus = useMemo(() => !currentInfo, [])
 
-  // Controls the opening and closing of the drawer via the currentInfo passed by the parent component.
-  // useEffect(() => {
+type searchData  = {
+  name: string;
+  [key: string]: string | number | any
+}
 
-  //   if(currentInfo && !!Object.keys(currentInfo).length){
-  //     setDrawerStatus("overview")
-  //   }
-  // }, [currentInfo])
-
+export default function KnowledgeDrawer({ currentInfo, drawerStatus, setDrawerStatus } : Readonly<DrawerType>) {
   const [value, setValue] = useState(0);
+  const [searchList, setSearchList] = useState<searchData[]>([])
+  const [searchInput, setSearchInput] = useState(searchList[0])
+  const [topicInfo, setTopicInfo] = useState(currentInfo)
+
+  const requestOptions = {
+    method: "GET",
+  };
+
+  let timer: NodeJS.Timeout;
+
+  const search = async (event) => {
+    clearTimeout(timer);
+    const searchValue = event.target.value
+
+    // call the api with the query
+    const url = `http://graphviz-network-lb-ff6880c917e535f1.elb.eu-west-2.amazonaws.com:8080/search/subtopic?q=${searchValue}`
+    
+    
+    // setTimeout to debounce the api call
+    timer = setTimeout(() => {
+     fetch(url, requestOptions)
+      .then((response) => response.json())
+      .then((result) => {
+        const { data } = result;
+        setSearchList(data);
+      })
+      .catch((error) => console.error(error));
+    }, 500)
+  }
+
+  useEffect(() => {
+    setTopicInfo(currentInfo);
+    // clear the search box
+    setSearchList([])
+    setSearchInput([] as any)
+  }, [currentInfo])
+
+  const updateSearch = (value) => {
+    setTopicInfo({...value, text: value.name})
+  }
+
+  const getOption = (option) => {
+    return option.name || ''
+  }
+
   let StateProps = {
     value: value,
     setValue: setValue,
   };
+
   return (
     <Box>
       <SwipeableDrawer
@@ -56,22 +96,18 @@ export default function Knowledge_Drawer({ currentInfo, drawerStatus, setDrawerS
                 disablePortal
                 freeSolo
                 id="combo-box-demo"
-                options={[]}
+                options={searchList}
+                value={searchInput}
+                onChange={(e, value) => updateSearch(value)}
+                getOptionLabel={(option) => getOption(option)}
                 sx={{ width: '100%', mx: '20px', mt: '2px' }}
                 renderInput={params => (
-                  <CustomSearch params={{autoFocus, ...params}}>
-                    <IconButton aria-label="close-icon">
-                      <CloseIcon
-                        onClick={() => setDrawerStatus('')}
-                        sx={{ color: '#4B7D94' }}
-                      />
-                    </IconButton>
-                  </CustomSearch>
+                  <TextField {...params} onChange={search} label="Subtopic" />
                 )}
               />
             </Box>
           )}
-          {renderDrawerContent(drawerStatus, currentInfo, StateProps)}
+          {renderDrawerContent(drawerStatus, topicInfo, StateProps)}
         </Box>
       </SwipeableDrawer>
     </Box>

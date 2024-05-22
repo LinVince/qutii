@@ -11,7 +11,6 @@ export default function Login() {
     <Box className="raleway-font" style={{background: 'white', color: '#2E2C34', display: 'flex'}}>
       <Hidden mdDown>
         <Box sx={{
-          background: 'red',
           height: "100vh",
           backgroundImage: "url('misc-bg.png')",
           backgroundSize: "cover",

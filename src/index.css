@@ -1,7 +1,10 @@
 @import url('https://fonts.cdnfonts.com/css/raleway-5');
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap');
+
 
 :root {
-  font-family: 'Raleway', 'Arial Black', 'Impact', 'Roboto', sans-serif !important; /* Raleway as primary font, followed by thicker font options */
+  font-family: 'Raleway', sans-serif, system-ui, Avenir, Helvetica, Arial,
+    sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
@@ -13,10 +16,6 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-.MuiTypography-root {
-  font-family: 'Raleway', 'Arial Black', 'Impact', 'Roboto', sans-serif !important; /* 
 }
 
 a {
@@ -84,14 +83,15 @@ button:focus-visible {
   z-index: auto !important;
   padding: 14px !important;
   margin-left: 10px;
-  font-family: 'Raleway', 'Arial Black', 'Impact', 'Roboto', sans-serif; /* Raleway as primary font, followed by thicker font options */
- 
 }
 
 .MuiDrawer-paper {
-  left: 86px !important;
+  @media (min-width: 900px) {
+    left: 86px !important;
+    width: 450px;
+  }
   /* padding: 14px !important; */
-  width: 450px;
+  width: 360px;
 }
 
 .popDrawer {
@@ -134,11 +134,14 @@ button:focus-visible {
   position: absolute;
   z-index: 2000 !important;
   background: #ffffff;
-  height: 100%;
+  height: 100vh;
   width: 86px;
   top: 0;
   left: 0;
   bottom: 0;
+  display: block;
+  transition: width ease-in-out .1s;
+  overflow: hidden;
 }
 
 .sidebar-shadow {
@@ -178,23 +181,8 @@ button:focus-visible {
   justify-content: center;
 }
 
-/* Modal form */
-form {
-  margin-top: 20px;
-  display: flex;
-  flex-direction: column;
-  margin-left: 50px;
-  font-family: 'Raleway', 'Arial Black', 'Impact', 'Roboto', sans-serif; /* Raleway as primary font, followed by thicker font options */
- 
-}
-
 .raleway-font {
-  font-family: 'Raleway', 'Arial Black', 'Impact', 'Roboto', sans-serif; /* Raleway as primary font, followed by thicker font options */
- 
-}
-
-.form-group {
-  width: 900px;
+  font-family: "Raleway", sans-serif;
 }
 
 input {
@@ -206,8 +194,7 @@ input {
   transition: border-bottom 1s ease; /* Smooth transition for underline */
   color: black;
   font-size: large;
-  font-family: 'Raleway', 'Arial Black', 'Impact', 'Roboto', sans-serif; /* Raleway as primary font, followed by thicker font options */
- 
+  font-family: 'Raleway', sans-serif;
 }
 input:hover {
   border-bottom: 1px solid blue;
@@ -241,53 +228,6 @@ label {
   color: #4b7d94;
 }
 
-.main-container {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  margin-top: 20px;
-  margin-left: 280px;
-  opacity: 0.8;
-  transform: scale(1.1);
-}
-
-.text-box {
-  width: auto;
-  font-size: 15px;
-  margin-right: 400px;
-  margin-left: 50px;
-  font-family: 'Raleway', 'Arial Black', 'Impact', 'Roboto', sans-serif; /* Raleway as primary font, followed by thicker font options */
-  color: black;
-  font-weight: 400;
-}
-.text-box h2 {
-  color: black;
-  font-size: 34px;
-  font-weight: 600;
-}
-
-.donate-text {
-  color: black;
-  margin-top: 20px;
-  margin-left: 50px;
-  font-family: 'Raleway', 'Arial Black', 'Impact', 'Roboto', sans-serif; /* Raleway as primary font, followed by thicker font options */
- 
-  margin-right: 400px;
-}
-.donate-button {
-  width: 20%;
-  margin-top: 20px;
-  margin-left: 50px;
-  height: 40px;
-}
-.donate-button:hover {
-  background-color: #434148;
-}
-.donate-button:disabled {
-  background-color: #c0c0c2;
-}
-
 .LeftbarIcon {
   cursor: pointer;
   padding: 10px 10px 6px;
@@ -308,10 +248,6 @@ label {
   margin-left: 30px;
 }
 
-.bulb {
-  height: 780px;
-}
-
 .thank-you-message {
   color: #13b4a1;
 }
@@ -325,8 +261,46 @@ input::-webkit-inner-spin-button {
 /* Firefox */
 input[type=number] {
   -moz-appearance: textfield;
+  appearance: textfield;
 }
 
 .MuiIconButton-root:focus {
   outline: none
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.subtopic-container > div::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.subtopic-container > div {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.dd {
+  background-color: white; /* Set background color to white */
+  border: 1px solid #ccc; /* Add border for better visibility */
+  padding: 8px; /* Add padding for better spacing */
+  appearance: none; /* Remove default arrow icon */
+  -webkit-appearance: none; /* Remove default arrow icon for webkit browsers */
+  -moz-appearance: none; /* Remove default arrow icon for Mozilla Firefox */
+}
+
+/* Style to add custom caret icon */
+.dd-parent::after {
+  content: url('assets/caret.svg'); /* Unicode for caret down icon */
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  pointer-events: none; /* Ensure caret doesn't affect select click */
+}
+
+.manrope-font {
+   font-family: "Manrope", sans-serif;
+  font-optical-sizing: auto;
+  /* font-weight: <weight>; */
+  font-style: normal;
 }

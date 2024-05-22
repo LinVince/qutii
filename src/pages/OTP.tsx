@@ -1,4 +1,4 @@
-import { Box, Button, Divider, Hidden } from '@mui/material'
+import { Button, Divider, Hidden, Box } from '@mui/material'
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import OtpInput from 'react-otp-input';
@@ -12,7 +12,7 @@ export default function OTPPage() {
   }
   
   return (
-    <Box className="raleway-font" style={{background: 'white', color: '#2E2C34', display: 'flex'}}>
+    <Box className="raleway-font" style={{background: 'white', color: '#2E2C34', display: 'flex',}}>
       <Hidden mdDown>
         <Box sx={{
           background: 'red',
@@ -23,8 +23,8 @@ export default function OTPPage() {
           width: "50%"
         }} />
       </Hidden>
-      <Box style={{display: 'flex', flexDirection:'column', justifyContent: 'center', alignItems: 'center', width: 'auto', margin: 'auto', height: "100vh"}}>
-        <Box style={{justifyContent: 'center', width: '50%'}}>
+      <Box sx={{paddingX: '20px'}} style={{display: 'flex', flexDirection:'column', justifyContent: 'center', alignItems: 'center', width: 'auto', margin: 'auto', height: "100vh"}}>
+        <Box sx={{justifyContent: 'center', width: {base:'70%', md:'50%'}}}>
           <Box style={{display: 'flex', alignItems: 'center'}}>
             <img width="20px" src='logo.png' alt='qutii-icon-logo' />
             <img width="60px" style={{marginLeft: "5px"}} src='qutii.png' alt='qutii-text-logo' />
@@ -37,14 +37,14 @@ export default function OTPPage() {
           </Box>
           
           <OtpInput
-      value={otp}
-      onChange={setOtp}
-      inputType='number'
-      numInputs={4}
-      shouldAutoFocus
-      containerStyle={{display: 'flex', justifyContent: 'space-between'}}
-      renderInput={(props) => <input {...props} style={{border: '1px solid #E6ECEE', fontSize: '36px', marginTop: '10px', padding: '30px', width: '30px', textAlign: 'center'}} />}
-    />
+            value={otp}
+            onChange={setOtp}
+            inputType='number'
+            numInputs={4}
+            shouldAutoFocus
+            containerStyle={{display: 'flex', justifyContent: 'space-between'}}
+            renderInput={(props) => <input {...props} style={{border: '1px solid #E6ECEE', fontSize: '24px', marginTop: '10px', height: '10px', padding: '30px', width: '16px', textAlign: 'center',}} />}
+          />
 
       <Box sx={{mt: 3}} style={{display: 'flex', justifyContent: 'space-between', fontSize: '14px', color: '#034459'}}>
         <span>Back</span>
@@ -58,11 +58,11 @@ export default function OTPPage() {
       </Box>
          
 
-        </Box>
+      </Box>
         
 {/* resend code */}
-      <Box sx={{mt: 5}} style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '60%', background: '#034459', borderRadius: '4px', padding: '30px'}}>
-        <Box sx={{width: '70%'}}>
+      <Box sx={{ mt: 5, display: 'flex', flexDirection: {xs: 'column', md: 'row', rowGap: '10px'}, justifyContent: 'space-between', alignItems: 'center', width: {base: '80%', sm:'60%'}, background: '#034459', borderRadius: '4px', padding: '20px'}}>
+        <Box sx={{paddingX: '20px'}}>
           <span style={{color: '#fff'}}>Didn’t receive your code? please allow 30 seconds for the message to arrive before requesting another code. Get help</span>
         </Box>
         <Box>

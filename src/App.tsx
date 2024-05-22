@@ -7,12 +7,14 @@ import SignUp from "./pages/SignUp";
 import OTPPage from "./pages/OTP";
 import VerifyIdentity from "./pages/VerifyIdentity";
 import React from "react";
+import MyAccount from "./pages/MyAccount";
   
 export default function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/account" element={<MyAccount />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/otp" element={<OTPPage />} />
