@@ -134,7 +134,7 @@ button:focus-visible {
   position: absolute;
   z-index: 2000 !important;
   background: #ffffff;
-  height: 100vh;
+  height: 100%;
   width: 86px;
   top: 0;
   left: 0;

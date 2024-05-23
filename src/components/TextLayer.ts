@@ -14,7 +14,7 @@ export default function HandleTextLayer (
 ){
   const noOverlap = true;
   const fontSize = 32;
-  const scale = 2 ** zoom;
+  const scale = 2**zoom;
   const sizeMaxPixels = (scale / 3) * fontSize;
   const sizeMinPixels = Math.min(scale / 1000, 0.5) * fontSize;
 
@@ -41,9 +41,9 @@ export default function HandleTextLayer (
 
     // CollideExtension options
     collisionEnabled: noOverlap,
-    getCollisionPriority: d => d.relevance,
+    getCollisionPriority: d => d.relevance/100,
     collisionTestProps: {
-      sizeScale: 1,
+      sizeScale: 3,
       sizeMaxPixels: sizeMaxPixels * 10,
       sizeMinPixels: sizeMinPixels * 10,
     },

@@ -26,11 +26,10 @@ interface ViewState {
 
 interface HomeStatus {
     viewState: ViewState,
-    showLeftBar: Boolean,
+    showLeftbar: Boolean | undefined,
     showMobileLeftbar: Boolean,
     drawerStatus: string,
     currentInfo: {},
-    zoom: number,
     cursorState: string,
     highlightState: Boolean,
     isUserInfoModalOpen: Boolean,
@@ -39,11 +38,10 @@ interface HomeStatus {
 interface HomeStatusStore {
     homeStatus: HomeStatus,
     setViewState:((ViewState:HomeStatus['viewState']) => void),
-    setShowLeftbar:((showLeftbbar:HomeStatus['showLeftBar']) => void),
+    setShowLeftbar:((showLeftbbar:HomeStatus['showLeftbar']) => void),
     setShowMobileLeftbar:((showMobileLeftbbar:HomeStatus['showMobileLeftbar']) => void),
     setDrawerStatus:((drawerStatus:HomeStatus['drawerStatus']) => void),
     setCurrentInfo:((showCurrentInfo:HomeStatus['currentInfo']) => void),
-    setZoom:((zoom:HomeStatus['zoom']) => void),
     setCursorState:((cursorState:HomeStatus['cursorState']) => void),
     setHighlightState:((highlightState:HomeStatus['highlightState']) => void),
     setIsUserInfoModalOpen:((isUserInfoModalOpen:HomeStatus['isUserInfoModalOpen']) =>void)
@@ -52,11 +50,10 @@ interface HomeStatusStore {
 const useHomeStatusStore = create<HomeStatusStore>((set) => ({
     homeStatus:
     {viewState:INITIAL_VIEW_STATE,
-    showLeftBar: true,
+    showLeftbar: undefined,
     showMobileLeftbar: false,
     drawerStatus: '',
     currentInfo: {undefined},
-    zoom: INITIAL_VIEW_STATE.zoom,
     cursorState: 'cursor',
     highlightState: false,
     isUserInfoModalOpen: false,
@@ -66,7 +63,6 @@ const useHomeStatusStore = create<HomeStatusStore>((set) => ({
     setShowMobileLeftbar:((showMobileLeftbar) => set ((store) => ({homeStatus:{...store.homeStatus, showMobileLeftbar}}))),
     setDrawerStatus:((drawerStatus: string) => set((store) => ({homeStatus: {...store.homeStatus, drawerStatus}}))),
     setCurrentInfo:((currentInfo) => set((store) => ({homeStatus:{...store.homeStatus, currentInfo}}))),
-    setZoom:((zoom) => set((store) => ({homeStatus:{...store.homeStatus, zoom}}))),
     setCursorState:((cursorState) => set((store) => ({homeStatus:{...store.homeStatus, cursorState}}))),
     setHighlightState:((highlightState) => set((store) => ({homeStatus:{...store.homeStatus, highlightState}}))),
     setIsUserInfoModalOpen:((IsUserInfoModalOpen) => set((store) => ({homeStatus:{...store.homeStatus, IsUserInfoModalOpen}})))

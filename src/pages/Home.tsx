@@ -5,7 +5,6 @@ import DeckGL from '@deck.gl/react';
 import { MapView } from '@deck.gl/core';
 import { Map, AttributionControl } from 'react-map-gl';
 import ZoomControls from '../components/ZoomControls';
-import UserInfoModal from '../components/PopUpForm';
 import TrendingTopicBtnOverlay from '../components/TrendingTopicBtnOverlay';
 import Box from '@mui/material/Box';
 import CustomSearch from '../components/CustomSearch';
@@ -45,24 +44,18 @@ export function HomeContent({
   setCurrentInfo,
 }) {
   const {
-    homeStatus: {
-      viewState,
-      cursorState,
-      highlightState,
-      zoom,
-      isUserInfoModalOpen,
-    },
+    homeStatus: { viewState, cursorState, highlightState },
     setViewState,
     setCursorState,
     setHighlightState,
-    setIsUserInfoModalOpen,
   } = useHomeStatusStore(state => ({
     homeStatus: state.homeStatus,
     setViewState: state.setViewState,
     setCursorState: state.setCursorState,
     setHighlightState: state.setHighlightState,
-    setIsUserInfoModalOpen: state.setIsUserInfoModalOpen,
   }));
+
+  const zoom = viewState.zoom;
 
   const changeViewState = topic => {
     const { longitude, latitude } = topic;
@@ -70,20 +63,12 @@ export function HomeContent({
       ...viewState,
       longitude,
       latitude,
-      zoom: 16,
+      zoom: 14,
       transitionDuration: 1000,
     });
     setCurrentInfo(topic);
     setShowLeftbar(true);
     setDrawerStatus('overview');
-  };
-
-  const handleSaveUserInfo = userInfo => {
-    console.log('New User Information', userInfo);
-  };
-
-  const handleUserInfoModalClose = () => {
-    setIsUserInfoModalOpen(false);
   };
 
   const onViewStateChange = ({ viewState }) => {
@@ -152,20 +137,22 @@ export function HomeContent({
   );
 
   const handleZoomIn = () => {
-    if (viewState.zoom > viewState.minZoom) {
+    if (viewState.zoom >= viewState.minZoom) {
       setViewState({
         ...viewState,
         zoom: viewState.zoom + 0.5,
         longitude: viewState.longitude + 0.005,
+        transitionDuration: 1000,
       });
     }
   };
   const handleZoomOut = () => {
-    if (viewState.zoom < viewState.maxZoom) {
+    if (viewState.zoom <= viewState.maxZoom) {
       setViewState({
         ...viewState,
         zoom: viewState.zoom - 0.5,
         longitude: viewState.longitude - 0.005,
+        transitionDuration: 1000,
       });
     }
   };
@@ -185,11 +172,6 @@ export function HomeContent({
       text: 'Autonomous Ride-Sharing Services',
       longitude: 9.650054037881015,
       latitude: -0.3644473979849971,
-    },
-    {
-      text: 'Civic Engagement Platforms',
-      longitude: -1.856901634160792,
-      latitude: -2.2067030427223826,
     },
   ];
 
@@ -239,7 +221,7 @@ export function HomeContent({
           sx={{
             ml: isMediumScreenUp ? 2 : 0,
             mt: isMediumScreenUp ? 0 : 2,
-            overflow: 'scroll',
+            overflow: 'hidden',
             position: 'relative',
           }}
         >
