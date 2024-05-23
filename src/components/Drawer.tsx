@@ -35,7 +35,7 @@ export default function KnowledgeDrawer({
     method: 'GET',
   };
 
-  let timer: NodeJS.Timeout;
+  let timer;
 
   const search = async event => {
     clearTimeout(timer);
@@ -55,7 +55,6 @@ export default function KnowledgeDrawer({
         .catch(error => console.error(error));
     }, 500);
   };
-
   useEffect(() => {
     setTopicInfo(currentInfo);
     // clear the search box
