@@ -124,7 +124,11 @@ export default function KnowledgeDrawer({
                 getOptionLabel={option => getOption(option)}
                 sx={{ width: '100%', mx: '20px', mt: '2px' }}
                 renderInput={params => (
-                  <TextField {...params} onChange={search} label="Subtopic" />
+                  <TextField
+                    {...params}
+                    onChange={search}
+                    label="Search Topic..."
+                  />
                 )}
               />
             </Box>
