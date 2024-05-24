@@ -32,9 +32,9 @@ export const QuestionAccordion = ({ qa }: QuestionSummaryProps) => {
       sx={{
         w: '100%',
         padding: '10px',
-        "&.MuiAccordion-root::before": {
-          backgroundColor: 'transparent'
-        }
+        '&.MuiAccordion-root::before': {
+          backgroundColor: 'transparent',
+        },
       }}
       variant="outlined"
     >
@@ -59,11 +59,11 @@ export const QuestionAccordion = ({ qa }: QuestionSummaryProps) => {
             </Typography>
             <Typography fontWeight="600"> &#x2022;</Typography>
             <Typography fontSize={14} fontWeight="600">
-              TQ Score: 22
+              TQ Score: upcoming feature
             </Typography>
             <Typography fontWeight="600">&#x2022;</Typography>
             <Typography fontSize={14} fontWeight="600">
-              120 Views
+              Views: upcoming feature
             </Typography>
           </Box>
         </Box>
