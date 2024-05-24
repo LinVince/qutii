@@ -35,6 +35,28 @@ export default function KnowledgeDrawer({
     method: 'GET',
   };
 
+  /* let timer: NodeJS.Timeout;
+
+  const search = async event => {
+    clearTimeout(timer);
+    const searchValue = event.target.value;
+
+    // call the api with the query
+    const url = `http://graphviz-network-lb-ff6880c917e535f1.elb.eu-west-2.amazonaws.com:8080/search/subtopic?q=${searchValue}`;
+
+    // setTimeout to debounce the api call
+    timer = setTimeout(() => {
+      fetch(url, requestOptions)
+        .then(response => response.json())
+        .then(result => {
+          const { data } = result;
+          setSearchList(data);
+        })
+        .catch(error => console.error(error));
+    }, 500);
+  };
+*/
+
   let timer;
 
   const search = async event => {

@@ -17,7 +17,7 @@ import HandleTextLayer from '../components/TextLayer';
 import token from '../data/token';
 import useHomeStatusStore from '../store';
 
-const { mapStyle, mapboxAccessToken } = token;
+//const { mapStyle, mapboxAccessToken } = token;
 
 export default function Home() {
   return (
@@ -179,10 +179,10 @@ export function HomeContent({
   const isMediumScreenUp = useMediaQuery(theme.breakpoints.up('md'));
 
   return (
-    <Box className="container">
+    <>
       <Box
         sx={{
-          position: 'relative',
+          position: 'absolute',
           top: '23px',
           left: showLeftbar ? 100 : 10,
           zIndex: 3,
@@ -191,45 +191,27 @@ export function HomeContent({
           overflow: 'hidden',
         }}
       >
-        <Box
-          sx={{ minWidth: 300 }}
-          onClick={() => {
-            setShowLeftbar(true);
-            setDrawerStatus('overview');
-          }}
-        >
-          <CustomSearch params={{ autoFocus: false }} position="before">
-            {isMediumScreenUp ? (
-              ''
-            ) : (
-              <IconButton
-                onClick={e => {
-                  e.stopPropagation();
-                  setShowMobileLeftbar(!showMobileLeftbar);
-                }}
-                type="button"
-                aria-label="search"
-              >
-                <MenuIcon sx={{ color: '#4B7D94' }} />
-              </IconButton>
-            )}
-          </CustomSearch>
-        </Box>
+        <CustomSearch params={{ autoFocus: false }} position="before">
+          {isMediumScreenUp ? (
+            ''
+          ) : (
+            <IconButton
+              onClick={e => {
+                e.stopPropagation();
+                setShowMobileLeftbar(!showMobileLeftbar);
+              }}
+              type="button"
+              aria-label="search"
+            >
+              <MenuIcon sx={{ color: '#4B7D94' }} />
+            </IconButton>
+          )}
+        </CustomSearch>
 
-        <Box
-          className="subtopic-container"
-          sx={{
-            ml: isMediumScreenUp ? 2 : 0,
-            mt: isMediumScreenUp ? 0 : 2,
-            overflow: 'hidden',
-            position: 'relative',
-          }}
-        >
-          <TrendingTopicBtnOverlay
-            topics={trendingTopics}
-            changeViewState={changeViewState}
-          />
-        </Box>
+        <TrendingTopicBtnOverlay
+          topics={trendingTopics}
+          changeViewState={changeViewState}
+        />
       </Box>
 
       {/* vision2 hidden */}
@@ -244,14 +226,14 @@ export function HomeContent({
         controller={{ touchRotate: true, dragRotate: true }}
         getCursor={() => cursorState}
       >
-        <Map
+        {/*<Map
           mapboxAccessToken={mapboxAccessToken}
           mapStyle={mapStyle}
           initialViewState={viewState}
         >
           <AttributionControl customAttribution="" />
-        </Map>
+    </Map>*/}
       </DeckGL>
-    </Box>
+    </>
   );
 }

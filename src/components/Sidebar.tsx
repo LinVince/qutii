@@ -1,13 +1,13 @@
-import { ThemeProvider, useMediaQuery, useTheme } from '@mui/material'
-import React, { ReactElement, useEffect, useState } from 'react'
+import { ThemeProvider, useMediaQuery, useTheme } from '@mui/material';
+import React, { ReactElement, useEffect, useState } from 'react';
 import Leftbar, { MobileLeftBar } from './Leftbar';
 import Drawer from './Drawer';
 
 type Props = {
-  children: ReactElement
-}
+  children: ReactElement;
+};
 
-export default function Sidebar({children}: Props) {
+export default function Sidebar({ children }: Props) {
   const [showLeftbar, setShowLeftbar] = useState(false);
   const [showMobileLeftbar, setShowMobileLeftbar] = useState(false);
   const [drawerStatus, setDrawerStatus] = useState('');
@@ -31,12 +31,12 @@ export default function Sidebar({children}: Props) {
       setShowLeftbar,
       setShowMobileLeftbar,
       setDrawerStatus,
-      setCurrentInfo
+      setCurrentInfo,
     });
   };
 
   return (
-     <ThemeProvider theme={theme}>
+    <ThemeProvider theme={theme}>
       <Leftbar
         showLeftbar={showLeftbar}
         setDrawerStatus={setDrawerStatus}
@@ -53,9 +53,7 @@ export default function Sidebar({children}: Props) {
         drawerStatus={drawerStatus}
         setDrawerStatus={setDrawerStatus}
       />
-      {
-        renderChildren()
-      }
+      {renderChildren()}
     </ThemeProvider>
-  )
+  );
 }
