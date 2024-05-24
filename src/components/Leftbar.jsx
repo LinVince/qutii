@@ -134,9 +134,8 @@ export default function Left_Bar(props) {
         <a
           className="LeftbarIcon"
           style={clickStyle.personal}
-          onClick={
-            () => navigate('/account')
-          }
+          /*onClick={
+            () => navigate('/account')*/
         >
           <svg
             width="18"

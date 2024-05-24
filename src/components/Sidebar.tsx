@@ -1,6 +1,7 @@
 import { ThemeProvider, useMediaQuery, useTheme } from '@mui/material';
 import React, { ReactElement, useEffect, useState } from 'react';
 import Leftbar, { MobileLeftBar } from './Leftbar';
+import CustomSearch from './CustomSearch';
 import Drawer from './Drawer';
 
 type Props = {

@@ -145,14 +145,19 @@ function renderDrawerContent(drawerStatus, currentInfo, props) {
         } else {
           return (
             <Box sx={{ p: '20px' }}>
-              Welcome to QuTii Knowledge Map. Navigate the map and click on the
-              topic you are interested in and relevant information will be
-              displayed here.
+              Welcome to QuTii's knowledge map! Explore topics and subtopics,
+              which are constantly expanding. Click on any topic to see relevant
+              excerpts from verified sources.
             </Box>
           );
         }
       case 'bookmark':
-        return <div>bookMark</div>;
+        return (
+          <Box sx={{ p: '20px' }}>
+            Our upcoming premium Bookmark feature will enable you to efficiently
+            organize your searches, quotes, and links of interest. Stay tuned!
+          </Box>
+        );
       case 'personal':
         return <div>personal</div>;
     }
