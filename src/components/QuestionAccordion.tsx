@@ -52,6 +52,7 @@ export const QuestionAccordion = ({ qa }: QuestionSummaryProps) => {
               gap: 1,
               color: '#146682',
               marginTop: '5px',
+              flexWrap: 'wrap',
             }}
           >
             <Typography fontSize={14} fontWeight="600">
