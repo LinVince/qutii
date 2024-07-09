@@ -5,6 +5,8 @@ import CloseIcon from '@mui/icons-material/Close';
 import Mobilelogo from '../assets/Logo.png';
 import { Box, IconButton } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
+import FAQModal from './FAQModal.tsx';
 
 let clickStyle = {
   overview: null,
@@ -12,11 +14,23 @@ let clickStyle = {
   personal: null,
 };
 
-export default function Left_Bar(props) {
+export default function LeftBar(props) {
   let { setDrawerStatus, drawerStatus, showLeftbar = true } = props;
 
   const [forceUpdateKey, setForceUpdateKey] = useState(0);
 
+  const [open, setOpen] = useState(false);
+
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+  const handleClick = () => {
+    if (open) {
+      handleClose();
+    } else {
+      handleOpen();
+    }
+  };
 
   const navigate = useNavigate();
 
@@ -43,17 +57,6 @@ export default function Left_Bar(props) {
       setDrawerStatus(currentButton);
     }
   }
-
-  const setColor = (currentButton, color) => {
-    let currentBackground = {
-      backgroundColor: color,
-    };
-
-    clickStyle = {
-      [currentButton]: currentBackground,
-    };
-    return clickStyle;
-  };
 
   useEffect(() => {
     if (drawerStatus === 'overview' && !clickStyle.overview) {
@@ -151,6 +154,21 @@ export default function Left_Bar(props) {
           </svg>
         </a>
       </Toolbar>
+      <IconButton
+        onClick={handleClick}
+        sx={{
+          color: 'white',
+          position: 'absolute',
+          bottom: 16,
+          left: 16,
+          backgroundColor: '#034459',
+          '&:hover': { backgroundColor: '#034459' },
+        }}
+      >
+        <HelpOutlineIcon />
+      </IconButton>
+
+      <FAQModal open={open} handleClose={handleClose} />
     </div>
   );
 }
@@ -234,15 +252,14 @@ export function MobileLeftBar(props) {
         >
           <img src={Mobilelogo} />
           <Box>
-            <IconButton aria-label="close-icon">
-              <CloseIcon
-                onClick={() => {
-                  setDrawerStatus('');
-                  setShowMobileLeftbar(false);
-                }}
-                sx={{ color: '#4B7D94' }}
-              />
-            </IconButton>
+            <IconButton
+              aria-label="close-icon"
+              onClick={() => {
+                setDrawerStatus('');
+                setShowMobileLeftbar(false);
+              }}
+              sx={{ color: '#4B7D94' }}
+            />
           </Box>
         </Box>
       </Toolbar>
@@ -322,7 +339,7 @@ export function MobileLeftBar(props) {
             style={clickStyle.personal}
             onClick={() => {
               // navigate to my account
-              navigate('/account')
+              navigate('/account');
             }}
           >
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>

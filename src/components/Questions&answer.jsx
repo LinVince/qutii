@@ -16,11 +16,16 @@ import { QuestionAccordion } from './QuestionAccordion';
 
 const QuestionsAndAnswer = ({ subtopic }) => {
   const [subtopicQA, setSubtopicQA] = useState([]);
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     async function fetchData() {
+      setLoading(true);
+      setSubtopicQA([])
       const dataSet = await getDataSet(subtopic);
+      setLoading(false);
       setSubtopicQA(dataSet);
+      
     }
     fetchData();
   }, [subtopic]);
@@ -34,11 +39,12 @@ const QuestionsAndAnswer = ({ subtopic }) => {
   return (
     <Box>
       <Box bgcolor="#EEF5F7" px="16px" py="15px">
-        <Typography fontSize="14px" fontWeight="medium">
+        {loading? 'Loading......' : (<Typography fontSize="14px" fontWeight="medium">
           {subtopicQA.length > 99 ? '100+' : subtopicQA.length} question
           {subtopicQA.length > 1 ? 's' : ''} and answer
           {subtopicQA.length > 1 ? 's' : ''}
-        </Typography>
+        </Typography>)}
+ 
         <Stack
           bgcolor="#EEF5F7"
           direction="row"

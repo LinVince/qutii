@@ -1,11 +1,11 @@
 import {create} from 'zustand';
 
 const MAX_ZOOM = 16;
-const MIN_ZOOM = 5;
+const MIN_ZOOM = 1;
 const INITIAL_VIEW_STATE = {
     latitude: 0.7416668866832955,
-    longitude: 0,
-    zoom: 8.0,
+    longitude: 10,
+    zoom: 1.8,
     maxZoom: MAX_ZOOM,
     minZoom: MIN_ZOOM,
     pitch: 0,

@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { IconButton } from '@mui/material';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import DeckGL from '@deck.gl/react';
@@ -11,38 +11,21 @@ import CustomSearch from '../components/CustomSearch';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import MenuIcon from '@mui/icons-material/Menu';
-import Sidebar from '../components/Sidebar';
-import textLayerColorScheme from '../data/textLayerColorScheme';
+import Sidebar, { SidebarContext } from '../components/Sidebar';
 import HandleTextLayer from '../components/TextLayer';
-import token from '../data/token';
 import useHomeStatusStore from '../store';
-
-//const { mapStyle, mapboxAccessToken } = token;
+import colors from '../data/colorCode';
+import trendingTopics from '../data/trendingTopics';
 
 export default function Home() {
   return (
     <Sidebar>
-      {/* the undefined is to prevent typescript error. The actual value will be populated by the sidebar wrapper */}
-      <HomeContent
-        showLeftbar={undefined}
-        showMobileLeftbar={undefined}
-        setShowLeftbar={undefined}
-        setShowMobileLeftbar={undefined}
-        setDrawerStatus={undefined}
-        setCurrentInfo={undefined}
-      />
+      <HomeContent />
     </Sidebar>
   );
 }
 
-export function HomeContent({
-  showLeftbar,
-  showMobileLeftbar,
-  setShowLeftbar,
-  setShowMobileLeftbar,
-  setDrawerStatus,
-  setCurrentInfo,
-}) {
+export function HomeContent() {
   const {
     homeStatus: { viewState, cursorState, highlightState },
     setViewState,
@@ -55,15 +38,18 @@ export function HomeContent({
     setHighlightState: state.setHighlightState,
   }));
 
+  const { showLeftbar, setShowLeftbar, setDrawerStatus, setCurrentInfo } =
+    useContext(SidebarContext);
+
   const zoom = viewState.zoom;
 
   const changeViewState = topic => {
-    const { longitude, latitude } = topic;
+    const { gephinodelongitude, gephinodelatitude } = topic;
     setViewState({
       ...viewState,
-      longitude,
-      latitude,
-      zoom: 14,
+      longitude: gephinodelongitude,
+      latitude: gephinodelatitude,
+      zoom: 8,
       transitionDuration: 1000,
     });
     setCurrentInfo(topic);
@@ -97,7 +83,7 @@ export function HomeContent({
   };
 
   const handleHover = info => {
-    if (info.object && info.object.type === 'subtopic') {
+    if (info.object && info.object.qnasubtopicid !== -1) {
       setCursorState('pointer');
       setHighlightState(true);
     } else {
@@ -106,24 +92,19 @@ export function HomeContent({
     }
   };
 
-  const checkFontSize = type => {
-    switch (type) {
-      case 'macrotopic':
-        return 70;
-      case 'topic':
-        return 24;
-      case 'subtopic':
-        return 20;
+  const checkFontSize = node => {
+    if (node.macrotopicid !== -1) {
+      return 40;
+    } else if (node.topicid !== -1) {
+      return 24;
+    } else if (node.qnasubtopicid !== -1) {
+      return 20;
+    } else {
+      return undefined;
     }
   };
 
-  const checkTopicColor = node => {
-    if (node.type === 'macrotopic') {
-      return textLayerColorScheme[node.text][node.type];
-    } else {
-      return textLayerColorScheme[node.macrotopic][node.type];
-    }
-  };
+  const checkTopicColor = node => colors[node.colorid]['rgb'];
 
   const textLayer = HandleTextLayer(
     checkTopicColor,
@@ -157,24 +138,6 @@ export function HomeContent({
     }
   };
 
-  const trendingTopics = [
-    {
-      text: 'Bike-sharing Programs',
-      longitude: 12.804664164345917,
-      latitude: 0.8099143979404076,
-    },
-    {
-      text: 'Smart Sensors Deployment',
-      longitude: 7.71916201496219,
-      latitude: -0.5790708188243794,
-    },
-    {
-      text: 'Autonomous Ride-Sharing Services',
-      longitude: 9.650054037881015,
-      latitude: -0.3644473979849971,
-    },
-  ];
-
   const theme = useTheme();
   const isMediumScreenUp = useMediaQuery(theme.breakpoints.up('md'));
 
@@ -182,42 +145,57 @@ export function HomeContent({
     <>
       <Box
         sx={{
-          position: 'absolute',
+          position: 'relative', //avoid layout issue with deck.gl
           top: '23px',
           left: showLeftbar ? 100 : 10,
           zIndex: 3,
           display: isMediumScreenUp ? 'flex' : '',
           pr: '20px',
-          overflow: 'hidden',
         }}
       >
-        <CustomSearch params={{ autoFocus: false }} position="before">
-          {isMediumScreenUp ? (
-            ''
-          ) : (
-            <IconButton
-              onClick={e => {
-                e.stopPropagation();
-                setShowMobileLeftbar(!showMobileLeftbar);
-              }}
-              type="button"
-              aria-label="search"
-            >
-              <MenuIcon sx={{ color: '#4B7D94' }} />
-            </IconButton>
-          )}
-        </CustomSearch>
+        <Box sx={{ minWidth: 300, position: 'relative' }}>
+          <CustomSearch
+            params={{ autoFocus: false }}
+            position="before"
+            triggerSearch={setCurrentInfo}
+            setShowLeftbar={setShowLeftbar}
+            setDrawerStatus={setDrawerStatus}
+          >
+            {isMediumScreenUp ? (
+              ''
+            ) : (
+              <IconButton
+                onClick={e => {
+                  e.stopPropagation();
+                  setShowLeftbar(!showLeftbar);
+                }}
+                type="button"
+                aria-label="search"
+              >
+                <MenuIcon sx={{ color: '#4B7D94' }} />
+              </IconButton>
+            )}
+          </CustomSearch>
+        </Box>
 
-        <TrendingTopicBtnOverlay
-          topics={trendingTopics}
-          changeViewState={changeViewState}
-        />
+        <Box
+          className="subtopic-container"
+          sx={{
+            ml: isMediumScreenUp ? 2 : 0,
+            mt: isMediumScreenUp ? 0 : 2,
+            overflow: 'hidden',
+          }}
+        >
+          <TrendingTopicBtnOverlay
+            topics={trendingTopics}
+            changeViewState={changeViewState}
+          />
+        </Box>
       </Box>
 
       {/* vision2 hidden */}
 
       <ZoomControls onZoomIn={handleZoomIn} onZoomOut={handleZoomOut} />
-
       <DeckGL
         views={new MapView({ repeat: false })}
         layers={[textLayer]}

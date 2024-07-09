@@ -1,18 +1,29 @@
 import { ThemeProvider, useMediaQuery, useTheme } from '@mui/material';
-import React, { ReactElement, useEffect, useState } from 'react';
-import Leftbar, { MobileLeftBar } from './Leftbar';
-import CustomSearch from './CustomSearch';
+import React, { ReactElement, useEffect, useState, createContext, useMemo } from 'react';
+import Leftbar from './Leftbar';
 import Drawer from './Drawer';
 
 type Props = {
   children: ReactElement;
 };
 
-export default function Sidebar({ children }: Props) {
+const voidFunc = (() => {} ) as any
+
+export const SidebarContext = createContext({
+  showLeftbar: false,
+  showMobileLeftbar: false,
+  currentInfo: {},
+  setShowLeftbar: voidFunc,
+  setShowMobileLeftbar: voidFunc,
+  setDrawerStatus: voidFunc,
+  setCurrentInfo: voidFunc,
+});
+
+export default function Sidebar({ children }: Readonly<Props>) {
   const [showLeftbar, setShowLeftbar] = useState(false);
   const [showMobileLeftbar, setShowMobileLeftbar] = useState(false);
   const [drawerStatus, setDrawerStatus] = useState('');
-  const [currentInfo, setCurrentInfo] = useState();
+  const [currentInfo, setCurrentInfo] = useState({});
   const theme = useTheme();
 
   const isMediumScreenUp = useMediaQuery(theme.breakpoints.up('md'));
@@ -23,38 +34,37 @@ export default function Sidebar({ children }: Props) {
     } else {
       setShowLeftbar(false);
     }
-  }, [isMediumScreenUp]);
+  }, []);
 
-  const renderChildren = () => {
-    return React.cloneElement(children, {
+  const sidebarValue = useMemo(() => ({
       showLeftbar,
       showMobileLeftbar,
+      currentInfo,
       setShowLeftbar,
       setShowMobileLeftbar,
       setDrawerStatus,
       setCurrentInfo,
-    });
-  };
+    }), [showLeftbar, showMobileLeftbar])
 
   return (
-    <ThemeProvider theme={theme}>
-      <Leftbar
-        showLeftbar={showLeftbar}
-        setDrawerStatus={setDrawerStatus}
-        drawerStatus={drawerStatus}
-      />
-      <MobileLeftBar
-        showLeftbar={showMobileLeftbar}
-        setDrawerStatus={setDrawerStatus}
-        drawerStatus={drawerStatus}
-        setShowMobileLeftbar={setShowMobileLeftbar}
-      />
-      <Drawer
-        currentInfo={currentInfo}
-        drawerStatus={drawerStatus}
-        setDrawerStatus={setDrawerStatus}
-      />
-      {renderChildren()}
-    </ThemeProvider>
+    <SidebarContext.Provider value={sidebarValue}>
+      <ThemeProvider theme={theme}>
+        <Leftbar
+          showLeftbar={showLeftbar}
+          setDrawerStatus={setDrawerStatus}
+          drawerStatus={drawerStatus}
+        />
+        <Drawer
+          showLeftbar={showLeftbar}
+          setCurrentInfo={setCurrentInfo}
+          currentInfo={currentInfo}
+          drawerStatus={drawerStatus}
+          setDrawerStatus={setDrawerStatus}
+        />
+        {
+          children
+        }
+      </ThemeProvider>
+    </SidebarContext.Provider>
   );
 }

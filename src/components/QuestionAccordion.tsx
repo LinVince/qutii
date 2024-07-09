@@ -12,20 +12,19 @@ import moment from 'moment';
 
 interface QuestionSummaryProps {
   qa: {
+    id: number;
     question: string;
     answer: string;
     sourceUrl: string;
     date: string;
+    keyword: string[];
   };
 }
 
 export const QuestionAccordion = ({ qa }: QuestionSummaryProps) => {
   const formattedDate = moment(qa.date).format('DD MMMM YY');
-  const keywords = [
-    'Climate Resilience Measures',
-    'Sustainable Development',
-    'Global Temperature Limit',
-  ];
+  console.log(qa);
+  console.log(qa.keyword);
 
   return (
     <Accordion
@@ -52,7 +51,7 @@ export const QuestionAccordion = ({ qa }: QuestionSummaryProps) => {
               gap: 1,
               color: '#146682',
               marginTop: '5px',
-              flexWrap: 'wrap',
+              flexWrap: 'Wrap',
             }}
           >
             <Typography fontSize={14} fontWeight="600">
@@ -100,7 +99,7 @@ export const QuestionAccordion = ({ qa }: QuestionSummaryProps) => {
           }}
           mt={1}
         >
-          {keywords.map((k: string) => (
+          {qa.keyword?.map((k: string) => (
             <Chip
               key={k}
               label={k}

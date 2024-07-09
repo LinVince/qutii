@@ -79,20 +79,19 @@ button:focus-visible {
 
 /* Drawer */
 
-.MuiModal-root {
+/* modifying mui style from here would affect other components with the same class that does not required to be styled this way */
+/* .MuiModal-root {
   position: static !important;
   z-index: auto !important;
   padding: 14px !important;
   margin-left: 10px;
-}
+} */
 
 .MuiDrawer-paper {
   @media (min-width: 900px) {
     left: 86px !important;
     width: 450px;
   }
-  /* padding: 14px !important; */
-  width: 360px;
 }
 
 .popDrawer {
@@ -132,7 +131,7 @@ button:focus-visible {
 
 /* leftbar */
 .leftbar {
-  position: absolute;
+  position: fixed;
   z-index: 2000 !important;
   background: #ffffff;
   height: 100%;
@@ -161,10 +160,9 @@ button:focus-visible {
 
 /* Zoom controls */
 .zoom-controls {
-  position: absolute;
+  position: fixed;
   bottom: 20px;
   right: 30px;
-  display: vertical;
   z-index: 999;
 }
 .zoom-controls button {

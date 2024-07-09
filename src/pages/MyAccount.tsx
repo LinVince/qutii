@@ -1,13 +1,11 @@
 import { Box, Button, Checkbox, useMediaQuery, useTheme } from '@mui/material'
-import React, { useEffect } from 'react'
-import Sidebar from '../components/Sidebar'
+import React, { useContext, useEffect } from 'react'
+import Sidebar, { SidebarContext } from '../components/Sidebar'
 import SettingSection from '../components/Account/SettingSection'
 import CustomInput from '../components/CustomInput'
 import SettingNavigation from '../components/Account/SettingNavigation'
 
-type Props = {}
-
-export default function MyAccount({}: Props) {
+export default function MyAccount() {
 
 
   useEffect(()  => {
@@ -16,15 +14,16 @@ export default function MyAccount({}: Props) {
 
   return (
     <Sidebar>
-      <Account showLeftbar={undefined} />
+      <Account />
     </Sidebar>
   )
 }
 
-export function Account({showLeftbar}) {
+export function Account() {
 
   const theme = useTheme();
   const isLargeScreen = useMediaQuery(theme.breakpoints.up('md'));
+  const {showLeftbar } = useContext(SidebarContext)
 
   return (
     <Box className="manrope-font" sx={{display: 'flex', background: '#EEF5F7', color: '#000', height: '100vh', marginLeft: `${showLeftbar ? '86px' : '0px'}`, paddingTop: '20px', overflow: 'scroll'}}>

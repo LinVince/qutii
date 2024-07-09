@@ -1,6 +1,7 @@
 import { TextLayer } from '@deck.gl/layers';
 import nodes from '../data/nodes';
 import { CollisionFilterExtension } from '@deck.gl/extensions';
+import {useDataFetcher} from "../services/fetchData";
 
 export default function HandleTextLayer (
   checkTopicColor,
@@ -12,6 +13,16 @@ export default function HandleTextLayer (
   setDrawerStatus,
   handleHover,
 ){
+  
+  const DATA_URL = "https://elb.qutii.org:443/library/libraryEntities";
+
+  const result = useDataFetcher(DATA_URL); // Fetch data using the hook
+  if (!result || !result.data) {
+    return null; // or return some loading indicator
+  }
+  const {data} = result;
+  
+ 
   const noOverlap = true;
   const fontSize = 32;
   const scale = 2**zoom;
@@ -20,7 +31,7 @@ export default function HandleTextLayer (
 
   return new TextLayer({
     id: 'knowledge_map',
-    data: nodes,
+    data,
     characterSet: 'auto',
     fontSettings: {
       buffer: 8,
@@ -29,10 +40,10 @@ export default function HandleTextLayer (
     fontWeight: 'bold',
 
     // TextLayer options
-    getText: d => d.text,
-    getPosition: d => [d.longitude, d.latitude],
+    getText: d => d.nodelabel,
+    getPosition: d => [d.gephinodelongitude, d.gephinodelatitude],
     getColor: d => checkTopicColor(d),
-    getSize: d => checkFontSize(d.type), //d.relevance/100,
+    getSize: d => checkFontSize(d), 
 
     //sizeScale: fontSize,
     sizeMaxPixels,
@@ -41,11 +52,11 @@ export default function HandleTextLayer (
 
     // CollideExtension options
     collisionEnabled: noOverlap,
-    getCollisionPriority: d => d.relevance/100,
+    getCollisionPriority: null,
     collisionTestProps: {
       sizeScale: 3,
-      sizeMaxPixels: sizeMaxPixels * 10,
-      sizeMinPixels: sizeMinPixels * 10,
+      sizeMaxPixels: sizeMaxPixels * 6,
+      sizeMinPixels: sizeMinPixels * 6,
     },
     extensions: [new CollisionFilterExtension()],
 
@@ -57,8 +68,8 @@ export default function HandleTextLayer (
     highlightColor: [255, 255, 255, 80],
     onClick: info => {
       info.object.sizeScale = fontSize * 1.5;
-      const { type } = info.object;
-      if (type === 'subtopic') {
+      const { qnasubtopicid } = info.object;
+      if (qnasubtopicid !== -1) {
         changeViewState(info.object);
         setCurrentInfo(info.object);
         setDrawerStatus('overview');

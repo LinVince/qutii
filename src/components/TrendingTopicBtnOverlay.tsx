@@ -3,7 +3,7 @@ import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 
 type TopicType = {
-  text: string;
+  nodelabel: string;
   [key: string]: string | number;
 };
 
@@ -18,10 +18,9 @@ export default function TrendingTopicBtnOverlay({
 }: SubTopicType) {
   return (
     <Stack
-      paddingLeft={2}
       spacing={2}
       direction="row"
-      sx={{ overflow: 'hidden' }}
+      sx={{ overflow: 'scroll' }}
     >
       {topics.map((topic, index) => {
         return (
@@ -32,7 +31,7 @@ export default function TrendingTopicBtnOverlay({
             onClick={() => changeViewState(topic)}
             sx={{ minWidth: 'max-content' }}
           >
-            {topic.text}
+            {topic.nodelabel}
           </Button>
         );
       })}
