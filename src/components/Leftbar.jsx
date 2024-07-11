@@ -5,8 +5,12 @@ import CloseIcon from '@mui/icons-material/Close';
 import Mobilelogo from '../assets/Logo.png';
 import { Box, IconButton } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
+import TipsAndUpdatesOutlinedIcon from '@mui/icons-material/TipsAndUpdatesOutlined';
+import BookmarkIcon from '@mui/icons-material/Bookmark';
+import MapIcon from '@mui/icons-material/Map';
 import FAQModal from './FAQModal.tsx';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import TravelExploreIcon from '@mui/icons-material/TravelExplore';
 
 let clickStyle = {
   overview: null,
@@ -86,87 +90,65 @@ export default function LeftBar(props) {
           drawerStatus === 'overview' ? 'active-leftbar-icon' : ''
         }`}
       >
-        <a
-          className="LeftbarIcon"
-          style={clickStyle.overview}
-          onClick={() => ButtonClick('overview')}
-        >
-          <svg
-            width="18"
-            height="18"
-            viewBox="0 0 18 18"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M17.5 0L17.34 0.03L12 2.1L6 0L0.36 1.9C0.15 1.97 0 2.15 0 2.38V17.5C0 17.78 0.22 18 0.5 18L0.66 17.97L6 15.9L12 18L17.64 16.1C17.85 16.03 18 15.85 18 15.62V0.5C18 0.22 17.78 0 17.5 0ZM12 16L6 13.89V2L12 4.11V16Z"
-              fill="#034459"
-            />
-          </svg>
-        </a>
+       
+      <IconButton
+        onClick={() => ButtonClick('overview')}
+        sx={{
+          color: 'white',
+          backgroundColor: '',
+          '&:hover': { backgroundColor: '' },
+        }}
+      >
+        <MapIcon sx={{color:"#4B7D94"}}/>
+      </IconButton>
+          
+        
       </Toolbar>
       <Toolbar
         className={`${
           drawerStatus === 'bookmark' ? 'active-leftbar-icon' : ''
         }`}
       >
-        <a
-          className="LeftbarIcon"
-          style={clickStyle.bookmark}
-          onClick={() => ButtonClick('bookmark')}
-        >
-          <svg
-            width="18"
-            height="18"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M19 18L21 19V3C21 1.9 20.1 1 19 1H8.99C7.89 1 7 1.9 7 3H17C18.1 3 19 3.9 19 5V18ZM15 5H5C3.9 5 3 5.9 3 7V23L10 20L17 23V7C17 5.9 16.1 5 15 5Z"
-              fill="#4B7D94"
-            />
-          </svg>
-        </a>
+      <IconButton
+        onClick={() => ButtonClick('bookmark')}
+        sx={{
+          color: 'white',
+          backgroundColor: '',
+          '&:hover': { backgroundColor: '' },
+      }}
+    >
+      <BookmarkIcon fontSize="small" sx={{color:"#4B7D94"}}/>
+    </IconButton>
+     
       </Toolbar>
       <Toolbar
         className={`${
           drawerStatus === 'personal' ? 'active-leftbar-icon' : ''
-        }`}
-      >
-        <a
-          className="LeftbarIcon"
-          style={clickStyle.personal}
-          /*onClick={
-            () => navigate('/account')*/
-        >
-          <svg
-            width="18"
-            height="18"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 5C13.66 5 15 6.34 15 8C15 9.66 13.66 11 12 11C10.34 11 9 9.66 9 8C9 6.34 10.34 5 12 5ZM12 19.2C9.5 19.2 7.29 17.92 6 15.98C6.03 13.99 10 12.9 12 12.9C13.99 12.9 17.97 13.99 18 15.98C16.71 17.92 14.5 19.2 12 19.2Z"
-              fill="#4B7D94"
-            />
-          </svg>
-        </a>
-      </Toolbar>
-      <IconButton
+        }`}>
+        <IconButton
+        onClick={() => navigate('')}
+        sx={{
+          color: 'white',
+          backgroundColor: '',
+          '&:hover': { backgroundColor: '' },
+      }}
+    >
+      <AccountCircleIcon fontSize="small" sx={{color:"#4B7D94"}}/>
+    </IconButton>
+    </Toolbar>
+    <Toolbar sx={{position: 'absolute', bottom: "10px"}}>
+    <IconButton
         onClick={handleClick}
         sx={{
           color: 'white',
-          position: 'absolute',
-          bottom: 16,
-          left: 16,
-          backgroundColor: '#034459',
-          '&:hover': { backgroundColor: '#034459' },
+          backgroundColor: '',
+          '&:hover': { backgroundColor: '' },
         }}
       >
-        <HelpOutlineIcon />
+        <TipsAndUpdatesOutlinedIcon sx={{color:"#4B7D94"}}/>
       </IconButton>
+      </Toolbar>
+
 
       <FAQModal open={open} handleClose={handleClose} />
     </div>
